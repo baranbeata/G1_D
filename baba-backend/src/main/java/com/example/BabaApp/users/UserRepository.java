@@ -1,0 +1,9 @@
+package com.example.BabaApp.users;
+
+import com.example.BabaApp.users.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+}
