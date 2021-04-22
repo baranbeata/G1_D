@@ -25,23 +25,23 @@ import About from './About.js';
 import './App.css'
 
 class App extends Component {
-  // state = { username: "", isAuthenticated : false };
+   state = { username: "", isAuthenticated : false };
 
   updateUsername = () => {
-    // const username = localStorage.getItem("username");
-    // this.setState({ username: username });
-    // if (username.length > 0) {
-    //   this.setState({isAuthenticated : true});
-    //   console.log("true");
-    // } else {
-    //   this.setState({isAuthenticated : false});
-    //   console.log("false");
-    // }
+     const username = localStorage.getItem("username");
+     this.setState({ username: username });
+     if (username.length > 0) {
+       this.setState({isAuthenticated : true});
+       console.log("true");
+     } else {
+       this.setState({isAuthenticated : false});
+       console.log("false");
+     }
   };
 
   logout = () => {
     localStorage.clear();
-    // this.setState({username : "", isAuthenticated : false});
+     this.setState({username : "", isAuthenticated : false});
   }
 
   render() {

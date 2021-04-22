@@ -25,4 +25,13 @@ public class User {
 
     @NonNull
     private String password;
+
+    @NonNull
+    private String email;
+
+    @NonNull
+    private String reset_token;
+
+    @NonNull
+    private String role;
 }

@@ -14,10 +14,10 @@ class Register extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        this.registerUser(event.target.username.value, event.target.password.value);
+        this.registerUser(event.target.username.value, event.target.email.value, event.target.password.value);
     }
 
-    registerUser(username, password) {
+    registerUser(username, email, password, role) {
         fetch('http://localhost:8080/users', {
                     method: 'POST',
                     headers: {
@@ -26,7 +26,10 @@ class Register extends Component {
                     },
                     body: JSON.stringify({
                         username: username,
+                        email   : email,
                         password: password,
+                        reset_token : 'reset_token', //moze tu lepiej 0?
+                        role : role,
                     })
                 }).then(function(response) {
                   if (response.status === 200) {
@@ -59,6 +62,16 @@ class Register extends Component {
             <Form.Group controlId = "username" size = "lg">
             <Form.Label> Username </Form.Label>
             <Form.Control autoFocus name = "username"/>
+            </Form.Group>
+
+            <Form.Group controlId = "email" size = "lg">
+            <Form.Label> Email </Form.Label>
+            <Form.Control name = "email"/>
+            </Form.Group>
+
+            <Form.Group controlId = "role" size = "lg">
+            <Form.Label> Role </Form.Label>
+            <Form.Control name = "role"/>
             </Form.Group>
 
             <Form.Group controlId = "password" size = "lg" >
