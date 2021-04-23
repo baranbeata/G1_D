@@ -30,7 +30,7 @@ public class User {
     private String email;
 
     @NonNull
-    private String reset_token;
+    private String resetToken;
 
     @NonNull
     private String role;
