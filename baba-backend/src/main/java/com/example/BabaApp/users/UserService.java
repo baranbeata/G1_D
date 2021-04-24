@@ -19,6 +19,9 @@ public class UserService {
     @Autowired
     ObjectMapper objectMapper; // json format
 
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
     @GetMapping("/users")
     public ResponseEntity getUsers() throws JsonProcessingException {
         List<User> users = userRepository.findAll();

@@ -23,7 +23,9 @@ public class User {
     @NonNull
     private String username;
 
+    //@Transient it can be added if we want to hide password in db
     @NonNull
+    //@Size(min=8, max=30) to do
     private String password;
 
     @NonNull
