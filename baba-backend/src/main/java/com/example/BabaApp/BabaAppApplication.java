@@ -23,6 +23,7 @@ public class BabaAppApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/users").allowedOrigins(LOCALHOST);
 				registry.addMapping("/login").allowedOrigins(LOCALHOST);
+				registry.addMapping("/forgot").allowedOrigins(LOCALHOST);
 			}
 		};
 	}
