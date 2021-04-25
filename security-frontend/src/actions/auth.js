@@ -5,6 +5,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     SET_MESSAGE,
+    FORGOTPASS,
   } from "./types";
   
   import AuthService from "../services/auth.service";
@@ -82,6 +83,14 @@ import {
   
     dispatch({
       type: LOGOUT,
+    });
+  };
+
+  export const forgotpass = (email) => (dispatch) => {
+    AuthService.forgotpass();
+  
+    dispatch({
+      type: FORGOTPASS,
     });
   };
   
