@@ -17,6 +17,7 @@ import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 
 import { history } from './helpers/history';
+import ForgotPass from "./components/forgotpass.component";
 
 class App extends Component {
   constructor(props) {
@@ -118,6 +119,7 @@ class App extends Component {
                     Sign Up
                   </Link>
                 </li>
+                
               </div>
             )}
           </nav>
@@ -131,6 +133,7 @@ class App extends Component {
               <Route path="/user" component={BoardUser} />
               <Route path="/mod" component={BoardModerator} />
               <Route path="/admin" component={BoardAdmin} />
+              <Route path="/forgot-password" component={ForgotPass} />
             </Switch>
           </div>
         </div>
