@@ -28,7 +28,7 @@ class ForgotPass extends Component {
           email: e.target.value,
         });
       }
-    handleForgotPass(e) {
+   async handleForgotPass(e) {
         e.preventDefault();
     
         this.setState({
@@ -40,26 +40,19 @@ class ForgotPass extends Component {
         const { dispatch, history } = this.props;
 
         if (this.checkBtn.context._errors.length === 0) {
-            axios({
-                url: 'http://localhost:8080/forgot-password', 
-                method: 'post',
-                headers: {'Content-Type':'application/json'},
-                data: ({
-                 email: this.state.email
-                })
-               })
-               .then((response) => {
-                console.log(response.data);
-                console.log(response.status);
-                console.log(response.statusText);
-                console.log(response.headers);
-                console.log(response.config);
-              })
-              .catch(() => {
-                this.setState({
-                  loading: false
-                });
-              });
+          const mail = {email: this.state.email};
+          try {
+            const response = await axios.post('http://localhost:8080/forgot-password/', JSON.stringify(mail) ,{headers: {
+             // Accept: 'application/json',
+              'Content-Type': 'application/json;charset=utf-8',
+           //   'Access-Control-Allow-Origin': '*'
+              }
+            }) 
+          }
+          catch(err) {
+            console.log("Error");
+          }
+               
           } else {
             this.setState({
               loading: false,
@@ -68,8 +61,9 @@ class ForgotPass extends Component {
 
       }
     render() {
+      const { message } = this.props;
         return (
-            
+
             <div>
             <title>Forgot Password</title>  
             <center>

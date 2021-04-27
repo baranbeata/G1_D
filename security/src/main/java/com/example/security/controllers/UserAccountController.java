@@ -59,6 +59,7 @@ public class UserAccountController {
      * Receive email of the user, create token and send it via email to the user
      */
     @PostMapping("/forgot-password")
+    @CrossOrigin(origins="http://localhost:8081")
     public ResponseEntity<?> forgotUserPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
         User existingUser = userRepository.findByEmailIgnoreCase(forgotPasswordRequest.getEmail());
         if(existingUser != null) {
@@ -74,7 +75,7 @@ public class UserAccountController {
             mailMessage.setSubject("Complete Password Reset!");
             mailMessage.setFrom("babacompanyproject@gmail.com");
             mailMessage.setText("To complete the password reset process, please click here: "
-                    +"http://localhost:8080/confirm-reset?confirmationtoken="+confirmationToken.getConfirmationToken());
+                    +"http://localhost:8081/confirm-reset?confirmationToken="+confirmationToken.getConfirmationToken());
 
             emailSenderService.sendEmail(mailMessage);
 
@@ -92,44 +93,42 @@ public class UserAccountController {
     //@RequestMapping(value="/confirm-reset", method= {RequestMethod.GET, RequestMethod.POST})
    // ResponseEntity<?> forgotUserPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest)
     @GetMapping("/confirm-reset")
-    public ResponseEntity<?> validateResetToken(@Valid @RequestBody ConfirmResetRequest confirmResetRequest)
+    public ResponseEntity<?> validateResetToken(@RequestParam String confirmationToken)
     {
-        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmResetRequest.getConfirmationToken());
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
         if(token != null) {
             User user = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
            // user.setEnabled(true);
             userRepository.save(user);
+            return ResponseEntity.ok(new MessageResponse("Valid link."));
         } else {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("The link is invalid or broken!"));
         }
-        return ResponseEntity.ok(new MessageResponse("Valid link."));
     }
 
     /**
      * Receive the token from the link sent via email and display form to reset password
      */
     @PostMapping( "/reset-password")
-    public ResponseEntity<?> resetUserPassword(ModelAndView modelAndView, User user) {
-         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+    public ResponseEntity<?> resetUserPassword(@Valid @RequestBody ConfirmResetRequest confirmResetRequest) {
+         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmResetRequest.getConfirmationToken());
 
-        if(user.getEmail() != null) {
+        if(token.getUser().getEmail() != null) {
             // use email to find user
-            User tokenUser = userRepository.findByEmailIgnoreCase(user.getEmail());
+            User tokenUser = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
            // tokenUser.setEnabled(true);
-            tokenUser.setPassword(encoder.encode(user.getPassword()));
+            tokenUser.setPassword(encoder.encode(tokenUser.getPassword()));
             // System.out.println(tokenUser.getPassword());
             userRepository.save(tokenUser);
-            modelAndView.addObject("message", "Password successfully reset. You can now log in with the new credentials.");
-            modelAndView.setViewName("successResetPassword");
+            return ResponseEntity.ok(new MessageResponse("Password successfully reset. You can now log in with the new credentials."));
         } else {
-            modelAndView.addObject("message","The link is invalid or broken!");
-            modelAndView.setViewName("error");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("The link is invalid or broken!"));
         }
-
-        return modelAndView;
     }
 
 
