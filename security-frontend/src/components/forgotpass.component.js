@@ -20,6 +20,7 @@ class ForgotPass extends Component {
         this.state = {
           email: "",
           loading: false,
+          message: ""
         };
       }
     
@@ -42,20 +43,30 @@ class ForgotPass extends Component {
         if (this.checkBtn.context._errors.length === 0) {
           const mail = {email: this.state.email};
           try {
-            const response = await axios.post('http://localhost:8080/forgot-password/', JSON.stringify(mail) ,{headers: {
+            await axios.post('http://localhost:8080/forgot-password/', JSON.stringify(mail) ,{headers: {
              // Accept: 'application/json',
               'Content-Type': 'application/json;charset=utf-8',
            //   'Access-Control-Allow-Origin': '*'
               }
-            }) 
+            })
+            .then(response => response.json())
+            .then(message => this.setState({message}));
+      
           }
           catch(err) {
-            console.log("Error");
+            if(err.response && e.response.data) {
+            console.log(err.respone.data.message);
+            }
           }
+          this.setState({
+            loading: false,
+            email:""
+          });
                
           } else {
             this.setState({
               loading: false,
+              email:""
             });
           }
 
@@ -101,6 +112,13 @@ class ForgotPass extends Component {
                 this.checkBtn = c;
               }}
             />
+            {message && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  {message}
+                </div>
+              </div>
+            )}
               </Form>
             </center>
           </div>
