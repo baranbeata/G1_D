@@ -14,6 +14,7 @@ import Profile from "./components/profile.component";
 import BoardEmployee from "./components/board-employee.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
+import Footer from './footer'
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -139,6 +140,7 @@ class App extends Component {
             </Switch>
           </div>
         </div>
+        <Footer/>
       </Router>
     );
   }
