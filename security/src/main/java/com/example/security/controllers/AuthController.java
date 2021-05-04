@@ -1,8 +1,6 @@
 package com.example.security.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -12,8 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +67,9 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(auth);
+
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
@@ -86,18 +91,23 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(auth);
+
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
+        System.out.println("test");
         Set<String> strRoles = signUpRequest.getRole();
+        System.out.println(signUpRequest.getRole());
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role employeeRole = roleRepository.findByName(ERole.ROLE_EMPLOYEE)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
+            roles.add(employeeRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
@@ -107,16 +117,22 @@ public class AuthController {
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                    case "manager":
+                        Role managerRole = roleRepository.findByName(ERole.ROLE_MANAGER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(managerRole);
+
+                        break;
+                    case "":
+                        Role supplierRole = roleRepository.findByName(ERole.ROLE_SUPPLIER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(supplierRole);
 
                         break;
                     default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        Role employeeRole = roleRepository.findByName(ERole.ROLE_EMPLOYEE)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
+                        roles.add(employeeRole);
                 }
             });
         }
@@ -127,3 +143,5 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }
+
+// https://roytuts.com/preauthorize-annotation-hasrole-example-in-spring-security/

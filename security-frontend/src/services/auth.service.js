@@ -19,12 +19,18 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password) {
-    return axios.post(API_URL + "signup", {
+  register(username, email, password, role) {
+    return axios.post(API_URL + "signup", JSON.stringify( {
       username,
       email,
       password,
-    });
+      role,
+    }), {headers: {
+      // Accept: 'application/json',
+       'Content-Type': 'application/json;charset=utf-8',
+    //   'Access-Control-Allow-Origin': '*'
+       }
+     });
   }
 }
 

@@ -13,10 +13,10 @@ public class SignupRequest {
     @NonNull
     private String email;
 
-    private Set<String> role;
-
     @NonNull
     private String password;
+
+    private Set<String> role;
 
     public String getUsername() {
         return username;
@@ -42,11 +42,7 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public Set<String> getRole() {
-        return this.role;
-    }
+    public Set<String> getRole() { return this.role; }
 
-    public void setRole(Set<String> role) {
-        this.role = role;
-    }
+    public void setRole(Set<String> role) { this.role = role;}
 }

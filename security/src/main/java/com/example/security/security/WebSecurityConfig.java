@@ -20,8 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        // securedEnabled = true,
-        // jsr250Enabled = true,
+         //securedEnabled = true,
+         //jsr250Enabled = true,
         prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -57,7 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
+                .antMatchers("/api/test/signup").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/register").hasAnyAuthority("ROLE_ADMIN")
+                //.antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

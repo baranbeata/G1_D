@@ -3,9 +3,9 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-
 import { connect } from "react-redux";
 import { register } from "../actions/auth";
+import { Redirect } from 'react-router-dom';
 
 const required = (value) => {
   if (!value) {
@@ -54,13 +54,28 @@ class Register extends Component {
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeRole = this.onChangeRole.bind(this);
 
     this.state = {
       username: "",
       email: "",
       password: "",
+      role: ["employee"],
       successful: false,
+      currentUser: undefined,
     };
+  }
+
+  componentDidMount() {
+    const user = this.props.user;
+
+    if (user) {
+      this.setState({
+        currentUser: user,
+        //showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+        handleRegister: user.roles.includes("ROLE_ADMIN"),
+      });
+    }
   }
 
   onChangeUsername(e) {
@@ -81,6 +96,12 @@ class Register extends Component {
     });
   }
 
+  onChangeRole(e) {
+    this.setState({
+      role: [e.target.value],
+    });
+  }
+
   handleRegister(e) {
     e.preventDefault();
 
@@ -93,7 +114,7 @@ class Register extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       this.props
         .dispatch(
-          register(this.state.username, this.state.email, this.state.password)
+          register(this.state.username, this.state.email, this.state.password, this.state.role)
         )
         .then(() => {
           this.setState({
@@ -109,7 +130,18 @@ class Register extends Component {
   }
 
   render() {
-    const { message } = this.props;
+    const { message, user: currentUser } = this.props;
+
+    let isAdmin = 0;
+    if(currentUser!=null)
+      currentUser.roles.forEach(role => {
+        if(role === "ROLE_ADMIN")
+          isAdmin = 1;
+      });
+    
+    if (!isAdmin) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div className="col-md-12">
@@ -141,7 +173,7 @@ class Register extends Component {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">Email </label>
                   <Input
                     type="text"
                     className="form-control"
@@ -162,6 +194,38 @@ class Register extends Component {
                     onChange={this.onChangePassword}
                     validations={[required, vpassword]}
                   />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="employee">
+                  <Input
+                    type="checkbox"
+                    className="checkbox-control"
+                    name="role"
+                    value="employee"
+                    checked={this.state.role === "employee"}
+                    onChange={this.onChangeRole}
+                  /> employee </label>
+
+                  <label htmlFor="manager">
+                  <Input
+                    type="checkbox"
+                    className="checkbox-control"
+                    name="role"
+                    value="manager"
+                    checked={this.state.role === "manager"}
+                    onChange={this.onChangeRole}
+                  /> manager </label>
+
+                  <label htmlFor="supplier">
+                  <Input
+                    type="checkbox"
+                    className="checkbox-control"
+                    name="role"
+                    value="supplier"
+                    checked={this.state.role === "supplier"}
+                    onChange={this.onChangeRole}
+                  /> supplier </label>
                 </div>
 
                 <div className="form-group">
@@ -189,12 +253,23 @@ class Register extends Component {
     );
   }
 }
-
+/*
 function mapStateToProps(state) {
   const { message } = state.message;
   return {
     message,
   };
-}
+};
+*/
+  function mapStateToProps(state) {
+    const { user } = state.auth;
+    const { message } = state.message;
+    return {
+      user,
+      message
+    };
+  }
+  
+
 
 export default connect(mapStateToProps)(Register);
