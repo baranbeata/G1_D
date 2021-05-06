@@ -1,5 +1,9 @@
 package com.example.security.models;
+import com.example.security.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +13,9 @@ import javax.persistence.*;
 @Entity
 @Table(	name = "users")
 
+
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +28,10 @@ public class User {
 
     @NonNull
     private String password;
+
+    @Nullable
+    private String newpassword;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
@@ -36,6 +46,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.newpassword="";
     }
 
     public Long getId() {
@@ -66,15 +77,17 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String password) { this.password = password; }
+
+    public String getNewPassword() {
+        return newpassword;
     }
+
+    public void setNewPassword(String newpassword) { this.newpassword = newpassword; }
 
     public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+    public void setRoles(Set<Role> roles) { this.roles = roles; }
 }
