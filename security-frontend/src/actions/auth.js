@@ -5,7 +5,8 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     SET_MESSAGE,
-  } from "./types";
+    CHANGED_SUCCESS,
+} from "./types";
   
   import AuthService from "../services/auth.service";
   
@@ -84,4 +85,37 @@ import {
       type: LOGOUT,
     });
   };
-  
+
+export const changePassword=(username,newpassword,password)=>(dispatch)=>{
+
+    return  AuthService.changePassword(username,newpassword, password).then(
+        (response) => {
+            dispatch({
+                type: CHANGED_SUCCESS,
+                payload: { user: response},
+            });
+            dispatch({
+                type: SET_MESSAGE,
+                payload: response.data.message,
+            });
+
+            return Promise.resolve();
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message)
+                ||
+                error.message ||
+                error.toString();
+
+            dispatch({
+                type: SET_MESSAGE,
+                payload: message,
+            });
+
+            return Promise.reject();
+        }
+    );
+};

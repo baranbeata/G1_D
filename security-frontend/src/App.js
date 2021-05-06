@@ -1,5 +1,3 @@
-// role uzytkownikow ticket
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Router, Switch, Route, Link } from "react-router-dom";
@@ -15,6 +13,7 @@ import BoardEmployee from "./components/board-employee.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
 import Footer from './footer'
+import Change_password from "./components/change_password.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -123,7 +122,7 @@ class App extends Component {
                   </Link>
                 </li>
 
-                
+
               </div>
             )}
           </nav>
@@ -137,6 +136,7 @@ class App extends Component {
               <Route path="/user" component={BoardEmployee} />
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
+              <Route exact path="/profile/change_password" component={Change_password} />
             </Switch>
           </div>
         </div>
@@ -154,10 +154,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(App);
-
-
-//<li className="nav-item">
-//                  <Link to={"/register"} className="nav-link">
-//                    Sign Up
-//                  </Link>
-//                </li>
