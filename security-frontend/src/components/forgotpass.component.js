@@ -20,7 +20,7 @@ class ForgotPass extends Component {
         this.state = {
           email: "",
           loading: false,
-          message: ""
+
         };
       }
     
@@ -44,18 +44,18 @@ class ForgotPass extends Component {
           const mail = {email: this.state.email};
           try {
             await axios.post('http://localhost:8080/forgot-password/', JSON.stringify(mail) ,{headers: {
-             // Accept: 'application/json',
-              'Content-Type': 'application/json;charset=utf-8',
-           //   'Access-Control-Allow-Origin': '*'
-              }
-            })
+              // Accept: 'application/json',
+               'Content-Type': 'application/json;charset=utf-8',
+            //   'Access-Control-Allow-Origin': '*'
+               }
+             })
             .then(response => response.json())
             .then(message => this.setState({message}));
       
           }
           catch(err) {
-            if(err.response && e.response.data) {
-            console.log(err.respone.data.message);
+            if(err.response && err.response.data) {
+            console.log(err.response.data.message);
             }
           }
           this.setState({
@@ -114,7 +114,7 @@ class ForgotPass extends Component {
             />
             {message && (
               <div className="form-group">
-                <div className="alert alert-danger" role="alert">
+                <div className="alert alert-successful" role="alert">
                   {message}
                 </div>
               </div>
@@ -129,7 +129,7 @@ class ForgotPass extends Component {
 function mapStateToProps(state) {
     const { message } = state.message;
     return {
-      message,
+      message
     };
   }
   

@@ -5,13 +5,13 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     SET_MESSAGE,
-    FORGOTPASS,
-  } from "./types";
-  
+    CHANGED_SUCCESS,
+} from "./types";
+
   import AuthService from "../services/auth.service";
   
-  export const register = (username, email, password) => (dispatch) => {
-    return AuthService.register(username, email, password).then(
+  export const register = (username, email, password, role) => (dispatch) => {
+    return AuthService.register(username, email, password, role).then(
       (response) => {
         dispatch({
           type: REGISTER_SUCCESS,
@@ -86,11 +86,36 @@ import {
     });
   };
 
-  export const forgotpass = (email) => (dispatch) => {
-    AuthService.forgotpass();
-  
-    dispatch({
-      type: FORGOTPASS,
-    });
-  };
-  
+export const changePassword=(username,newpassword,password)=>(dispatch)=>{
+
+    return  AuthService.changePassword(username,newpassword, password).then(
+        (response) => {
+            dispatch({
+                type: CHANGED_SUCCESS,
+                payload: { user: response},
+            });
+            dispatch({
+                type: SET_MESSAGE,
+                payload: response.data.message,
+            });
+
+            return Promise.resolve();
+        },
+        (error) => {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message)
+                ||
+                error.message ||
+                error.toString();
+
+            dispatch({
+                type: SET_MESSAGE,
+                payload: message,
+            });
+
+            return Promise.reject();
+        }
+    );
+};

@@ -9,9 +9,11 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
-import BoardModerator from "./components/board-moderator.component";
+import BoardEmployee from "./components/board-employee.component";
+import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
+import Footer from './footer'
+import Change_password from "./components/change_password.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -25,7 +27,7 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      showModeratorBoard: false,
+      showManagerBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
     };
@@ -41,7 +43,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+        showManagerBoard: user.roles.includes("ROLE_MANAGER"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
     }
@@ -52,7 +54,7 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser, showManagerBoard, showAdminBoard } = this.state;
 
     return (
       <Router history={history}>
@@ -68,20 +70,27 @@ class App extends Component {
                 </Link>
               </li>
 
-              {showModeratorBoard && (
+              {showManagerBoard && (
                 <li className="nav-item">
-                  <Link to={"/mod"} className="nav-link">
-                    Moderator Board
+                  <Link to={"/manager"} className="nav-link">
+                    Manager Board
                   </Link>
                 </li>
               )}
 
               {showAdminBoard && (
+                <div className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
                     Admin Board
                   </Link>
                 </li>
+                <li className="nav-item">
+                    <Link to={"/register"} className="nav-link">
+                        Register new user
+                    </Link>
+                </li>
+                </div>
               )}
 
               {currentUser && (
@@ -114,12 +123,7 @@ class App extends Component {
                   </Link>
                 </li>
 
-                <li className="nav-item">
-                  <Link to={"/register"} className="nav-link">
-                    Sign Up
-                  </Link>
-                </li>
-                
+
               </div>
             )}
           </nav>
@@ -130,14 +134,16 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/profile" component={Profile} />
-              <Route path="/user" component={BoardUser} />
-              <Route path="/mod" component={BoardModerator} />
+              <Route path="/user" component={BoardEmployee} />
+              <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
-            
+
+              <Route exact path="/profile/change_password" component={Change_password} />
             </Switch>
           </div>
         </div>
+        <Footer/>
       </Router>
     );
   }

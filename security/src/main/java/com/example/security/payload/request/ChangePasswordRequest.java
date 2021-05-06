@@ -1,22 +1,18 @@
 package com.example.security.payload.request;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
-import java.util.Set;
 
-import javax.validation.constraints.*;
-
-public class SignupRequest {
+public class ChangePasswordRequest {
     @NonNull
     private String username;
 
     @NonNull
-    private String email;
-
-    @NonNull
     private String password;
 
-    private Set<String> role;
+    @NonNull
+    private String newpassword;
 
     public String getUsername() {
         return username;
@@ -24,14 +20,6 @@ public class SignupRequest {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -42,7 +30,10 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public Set<String> getRole() { return this.role; }
+    public void setNewpassword(String newpassword) {
+        this.newpassword = newpassword;
+    }
 
-    public void setRole(Set<String> role) { this.role = role;}
+
+    public String getnewPassword() {return newpassword;}
 }

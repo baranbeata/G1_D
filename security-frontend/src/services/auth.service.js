@@ -9,6 +9,7 @@ class AuthService {
       .then((response) => {
         if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
+           localStorage.setItem('username', username);
         }
 
         return response.data;
@@ -19,12 +20,29 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password) {
-    return axios.post(API_URL + "signup", {
+  register(username, email, password, role) {
+    return axios.post(API_URL + "signup", JSON.stringify( {
       username,
       email,
       password,
-    });
+      role,
+    }), {headers: {
+      // Accept: 'application/json',
+       'Content-Type': 'application/json;charset=utf-8',
+    //   'Access-Control-Allow-Origin': '*'
+       }
+     });
+  }
+
+  changePassword(username,newpassword,password){
+    //  alert(`after incrementiname ${email}.`);
+    return axios.post(API_URL + "profile/change_password",
+        {
+        username,
+            newpassword,
+        password,
+    })
+
   }
 
   forgotpass(email) {
