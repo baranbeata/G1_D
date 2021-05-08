@@ -12,6 +12,7 @@ import Profile from "./components/profile.component";
 import BoardEmployee from "./components/board-employee.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
+import BoardSupplier from "./components/board-supplier.component";
 import Footer from './footer'
 import Change_password from "./components/change_password.component"
 
@@ -29,6 +30,8 @@ class App extends Component {
     this.state = {
       showManagerBoard: false,
       showAdminBoard: false,
+      showEmployeeBoard: false,
+      showSupplierBoard: false,
       currentUser: undefined,
     };
 
@@ -45,6 +48,8 @@ class App extends Component {
         currentUser: user,
         showManagerBoard: user.roles.includes("ROLE_MANAGER"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+        showEmployeeBoard: user.roles.includes("ROLE_EMPLOYEE"),
+        showSupplierBoard: user.roles.includes("ROLE_SUPPLIER"),
       });
     }
   }
@@ -54,7 +59,7 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showManagerBoard, showAdminBoard } = this.state;
+    const { currentUser, showManagerBoard, showAdminBoard, showEmployeeBoard, showSupplierBoard } = this.state;
 
     return (
       <Router history={history}>
@@ -78,6 +83,14 @@ class App extends Component {
                 </li>
               )}
 
+              {showSupplierBoard && (
+                <li className="nav-item">
+                  <Link to={"/manager"} className="nav-link">
+                    Supplier Board
+                  </Link>
+                </li>
+              )}
+
               {showAdminBoard && (
                 <div className="navbar-nav ml-auto">
                 <li className="nav-item">
@@ -93,10 +106,10 @@ class App extends Component {
                 </div>
               )}
 
-              {currentUser && (
+              {showEmployeeBoard && (
                 <li className="nav-item">
-                  <Link to={"/user"} className="nav-link">
-                    User
+                  <Link to={"/employee"} className="nav-link">
+                    Employee
                   </Link>
                 </li>
               )}
@@ -134,11 +147,11 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/profile" component={Profile} />
-              <Route path="/user" component={BoardEmployee} />
+              <Route path="/employee" component={BoardEmployee} />
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
+              <Route path="/supplier" component={BoardSupplier} />
               <Route path="/forgot-password" component={ForgotPass} />
-
               <Route exact path="/profile/change_password" component={Change_password} />
             </Switch>
           </div>
