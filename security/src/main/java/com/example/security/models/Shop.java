@@ -2,6 +2,8 @@ package com.example.security.models;
 
 import org.springframework.lang.NonNull;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(	name = "shops")
@@ -20,6 +22,8 @@ public class Shop {
     @NonNull
     private String city;
 
+    @OneToMany(mappedBy = "shop")
+    private List<User> users=new ArrayList<User>();
 
     public Shop() {
     }
@@ -59,5 +63,11 @@ public class Shop {
     }
 
     public void setCity(String city) { this.city = city; }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) { this.users = users; }
 
 }

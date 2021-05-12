@@ -39,11 +39,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_shops",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "shop_id"))
-    private String shopID;
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
 
 
     public User() {
@@ -97,4 +97,10 @@ public class User {
     }
 
     public void setRoles(Set<Role> roles) { this.roles = roles; }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) { this.shop = shop; }
 }
