@@ -1,31 +1,58 @@
 package com.example.security.controllers;
 
+import com.example.security.models.ConfirmationToken;
 import com.example.security.models.User;
 import com.example.security.repository.ConfirmationTokenRepository;
 import com.example.security.repository.UserRepository;
+import com.example.security.security.WebSecurityConfig;
+import com.example.security.security.services.EmailSenderService;
+import com.example.security.security.services.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.mail.iap.Response;
+import javassist.NotFoundException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.webservices.client.WebServiceClientTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
 public class ChangePasswordControllerTest {
-
     private MockMvc mockMvc;
 
     @Before
     public void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userAccountController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(changepasswordcontroller).build();
     }
     @MockBean
     private UserRepository userRepository;
@@ -34,67 +61,28 @@ public class ChangePasswordControllerTest {
     private ConfirmationTokenRepository confirmationTokenRepository;
 
     @InjectMocks
-    private UserAccountController userAccountController;
-
-
-
-
-  /*  @Before
-    public void init() {
-        User user = userRepository.findByEmailIgnoreCase("test@test.com");
-        if (user == null) {
-            User superUser = new User("testowanie", "test@test.com", passwordEncoder.encode("test"));
-            userRepository.save(superUser);
-        } else {
-            user.setPassword(passwordEncoder.encode("test"));
-            userRepository.save(user);
-        }
-
-        RestAssured.port = port;
-        RestAssured.baseURI = "http://localhost";
-     //   System.out.printf("url %s %d",URL, port);
-        URL = "profile/change_password";
-        formConfig = new FormAuthConfig("/signin", "Ola123", "ola123");
-    }
-
-    @After
-    public void resetUserPassword() {
-        final User user = userRepository.findByEmailIgnoreCase("test@test.com");
-        user.setPassword(passwordEncoder.encode("test"));
-        userRepository.save(user);
-    }
-*/
-    @Test
-    public void givenLoggedInUser_whenChangingPassword_thenCorrect() throws Exception {
-
-        String password = "test123";
-        String newpassword = "nowetest123";
-        User user = new User("test100","test@wp.pl","test123");
-
-
-        mockMvc.perform( MockMvcRequestBuilders
-                .post("/profile/change_password")
-                .param("password", password)
-                .param("newpassword", newpassword))
-                .andExpect(status().is(404));
-
-    }
+    private ChangePasswordController changepasswordcontroller;
 
     @Test
-    public void givenLoggedInUser_whenChangingPasswordWithBadOldPassword_thenInCorrect() throws Exception {
+    public void contextLoads() {
+        Assert.assertNotNull(changepasswordcontroller);
+    }
 
-        String password = "bad_password";
-        String newpassword = "nowetest123";
-        User user = new User("test100","test@wp.pl","test123");
-
-
+    @WithMockUser
+    @Test
+    public void sendEmail_emailNonExistentInDatabase() throws Exception {
         mockMvc.perform( MockMvcRequestBuilders
-                .post("/profile/change_password")
-                .param("password", password)
-                .param("newpassword", newpassword))
-                .andExpect(status().is(404));
+                .post("/profile/change_password"))
+            //    .content(asJsonString("aaa.bbb@abc.com"))
+              //  .contentType(MediaType.APPLICATION_JSON)
+             //   .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+       // assertNull(userRepository.findByEmailIgnoreCase("aaa.bbb@abc.com"));
 
     }
+
+
 
     public static String asJsonString(final Object obj) {
         try {
@@ -103,5 +91,4 @@ public class ChangePasswordControllerTest {
             throw new RuntimeException(e);
         }
     }
-
 }

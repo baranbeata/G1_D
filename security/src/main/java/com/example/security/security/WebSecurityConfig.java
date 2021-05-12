@@ -68,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/test/signup").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/register").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/forgot-password/").permitAll()
+                .antMatchers("/profile/change_password").permitAll()
                 .antMatchers("/confirm-reset*").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/products/").permitAll()

@@ -14,7 +14,7 @@ import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
 import Footer from './footer'
 import Change_password from "./components/change_password.component"
-import ConfirmReset from "./components/confirmreset.component"
+//import ConfirmReset from "./components/confirmreset.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -139,7 +139,7 @@ class App extends Component {
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
-              <Route exact path="/confirm-reset?confirmationToken=:confirmationToken" component={ConfirmReset}/>
+
 
               <Route exact path="/profile/change_password" component={Change_password} />
             </Switch>

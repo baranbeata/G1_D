@@ -31,6 +31,7 @@ public class ChangePasswordController {
     JwtUtils jwtUtils;
 
     @PostMapping("/profile/change_password")
+    @CrossOrigin(origins="http://localhost:8081")
   //  @PreAuthorize("hasRole('READ_PRIVILEGE')")
  //   public ResponseEntity<String> changePassword(@Valid @RequestBody String username,String password, String oldPassword) {
 public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changepasswordrequest){//,@RequestParam String new_password){

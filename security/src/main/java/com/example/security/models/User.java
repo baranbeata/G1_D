@@ -24,6 +24,8 @@ public class User {
     @NonNull
     private String email;
 
+
+
     @NonNull
     private String password;
 
@@ -36,6 +38,13 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_shops",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "shop_id"))
+    private String shopID;
+
 
     public User() {
     }
