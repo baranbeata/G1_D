@@ -1,94 +1,145 @@
 package com.example.security.controllers;
 
-import com.example.security.models.ConfirmationToken;
 import com.example.security.models.User;
-import com.example.security.repository.ConfirmationTokenRepository;
+import com.example.security.payload.request.ChangePasswordRequest;
 import com.example.security.repository.UserRepository;
-import com.example.security.security.WebSecurityConfig;
 import com.example.security.security.services.EmailSenderService;
-import com.example.security.security.services.UserDetailsServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.mail.iap.Response;
-import javassist.NotFoundException;
-import org.junit.Assert;
+import com.example.security.security.services.UserDetailsImpl;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.webservices.client.WebServiceClientTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContext;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import java.util.ArrayList;
+import java.util.List;
 
-//@SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
-@AutoConfigureMockMvc
-public class ChangePasswordControllerTest {
-    private MockMvc mockMvc;
+
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ComponentScan({"com.example.security.security"})
+
+@WebMvcTest(ChangePasswordController.class)
+class ChangePasswordControllerTest {
+
+    @Autowired
+    private ChangePasswordController changepasswordcontroller;
+
+    @MockBean
+    public JavaMailSender sender;
+
+    @Autowired
+    private MockMvc mvc;
+
+    private WebApplicationContext context;
 
     @Before
     public void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(changepasswordcontroller).build();
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(SecurityMockMvcConfigurers.springSecurity())
+                .build();
     }
+
     @MockBean
     private UserRepository userRepository;
 
-    @MockBean
-    private ConfirmationTokenRepository confirmationTokenRepository;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
-    @InjectMocks
-    private ChangePasswordController changepasswordcontroller;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
-    public void contextLoads() {
-        Assert.assertNotNull(changepasswordcontroller);
+    void changePassword_withGivenWrongOldPassword_ThenIncorrect() throws Exception {
+
+     //   PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("tests");
+        user.setPassword(passwordEncoder.encode("tests123"));
+        user.setEmail("tests@test.com");
+
+        List<User> users = new ArrayList<>();
+        users.add(user);
+
+        Mockito.when(userRepository.findAll()).thenReturn(users);
+        Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
+
+        ChangePasswordRequest change = new ChangePasswordRequest();
+        change.setUsername("tests");
+        change.setPassword("tests12345");
+        change.setNewpassword("newpassword");
+
+        ResponseEntity<?> responseEntity = changepasswordcontroller.changePassword(change);
+
+        assertEquals(400, responseEntity.getStatusCode().value());
     }
 
-    @WithMockUser
     @Test
-    public void sendEmail_emailNonExistentInDatabase() throws Exception {
-        mockMvc.perform( MockMvcRequestBuilders
-                .post("/profile/change_password"))
-            //    .content(asJsonString("aaa.bbb@abc.com"))
-              //  .contentType(MediaType.APPLICATION_JSON)
-             //   .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+    void changePassword_withGivenCorrectOldPassword_ThenOk() throws Exception {
 
-       // assertNull(userRepository.findByEmailIgnoreCase("aaa.bbb@abc.com"));
+     //   PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("tests");
+        user.setPassword(passwordEncoder.encode("tests123"));
+        user.setEmail("tests@test.com");
+
+        List<User> users = new ArrayList<>();
+        users.add(user);
+
+        Mockito.when(userRepository.findAll()).thenReturn(users);
+        Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
+
+        ChangePasswordRequest change = new ChangePasswordRequest();
+        change.setUsername("tests");
+        change.setPassword("tests123");
+        change.setNewpassword("newpassword");
+
+        ResponseEntity<?> responseEntity = changepasswordcontroller.changePassword(change);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON);
+
+        //"Your password was changed successfully!"
+        assertEquals(200, responseEntity.getStatusCodeValue());
     }
 
+    @Test
+    void changePassword_withNonExistingUser() throws Exception {
 
-
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        try
+        {
+            ChangePasswordRequest change = new ChangePasswordRequest();
+            change.setUsername("tests");
+            change.setPassword("tests123");
+            change.setNewpassword("newpassword");
+            ResponseEntity<?> responseEntity = changepasswordcontroller.changePassword(change);
+            fail("Should have thrown SomeException but did not!");
+        }
+        catch( final RuntimeException e )
+        {
+            final String msg = "Error: User with given username not found.";
+            assertEquals(msg, e.getMessage());
         }
     }
 }
