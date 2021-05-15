@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/confirm-reset*").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/products").permitAll()
+                .antMatchers("/products/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()//.anyRequest().authenticated();
                 .anyRequest().authenticated();
 

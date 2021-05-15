@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 public class ProductController {
 
@@ -20,11 +22,11 @@ public class ProductController {
         return new ResponseEntity<>(productRepository.findAll(), HttpStatus.OK);
     }
 
-  /*  @GetMapping("/products/:id")
+    @GetMapping("/products/{id}")
     public @NotNull
-    ResponseEntity<Product> getSingleProduct(@RequestParam long id) {
+    ResponseEntity<Optional<Product>> getSingleProduct(@PathVariable long id) {
             return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
             
-    }*/
+    }
 
 }
