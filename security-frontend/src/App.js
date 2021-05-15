@@ -15,7 +15,7 @@ import BoardAdmin from "./components/board-admin.component";
 import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
-
+import Profile_form from "./components/profile_form.component";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 
@@ -140,7 +140,7 @@ class App extends Component {
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
               <Route exact path="/confirm-reset?confirmationToken=:confirmationToken" component={ConfirmReset}/>
-
+              <Route path="/profile_form" component={Profile_form} />
               <Route exact path="/profile/change_password" component={Change_password} />
             </Switch>
           </div>
