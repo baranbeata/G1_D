@@ -91,9 +91,6 @@ class AuthControllerTest {
         Mockito.when(userRepository.findAll()).thenReturn(users);
         Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
 
-        System.out.println(userRepository.findAll());
-        System.out.println(userRepository.findByUsername(user.getUsername()));
-
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("beata");
         loginRequest.setPassword("beata493");
@@ -105,7 +102,6 @@ class AuthControllerTest {
 
     @Test
     void registerUserTest() {
-        System.out.println(userRepository.findAll());
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
