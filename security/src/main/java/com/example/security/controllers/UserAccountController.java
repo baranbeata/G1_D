@@ -93,10 +93,12 @@ public class UserAccountController {
     //@RequestMapping(value="/confirm-reset", method= {RequestMethod.GET, RequestMethod.POST})
    // ResponseEntity<?> forgotUserPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest)
     @GetMapping("/confirm-reset")
+    @CrossOrigin(origins="http://localhost:8081")
     public ResponseEntity<?> validateResetToken(@RequestParam String confirmationToken)
     {
         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
+        System.out.println(token);
         if(token != null) {
             User user = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
            // user.setEnabled(true);
