@@ -155,7 +155,6 @@ class App extends Component {
               <Route path="/products/:productId" component={ProductDetails}/>
               <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/profile/change_password" component={Change_password} />
-              <Route path="/reset-password" render={(props) => <ResetPassword {...props}/>}/>
 
             
             </Switch>
