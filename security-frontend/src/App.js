@@ -16,6 +16,7 @@ import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
 import Products from "./components/products.component"
+import ProductDetails from "./components/productdetails.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -149,6 +150,7 @@ class App extends Component {
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
               <Route path="/products" component={Products} />
+              <Route path="/products/:productId"/>
               <Route exact path="/confirm-reset?confirmationToken=:confirmationToken" component={ConfirmReset}/>
               <Route exact path="/profile/change_password" component={Change_password} />
             </Switch>
