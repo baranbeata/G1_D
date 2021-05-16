@@ -80,7 +80,7 @@ public class Product {
         this.price=price;
     }
 
-    /*public Set<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
@@ -95,5 +95,5 @@ public class Product {
 
     public void setTypes(Set<Type> types ) {
         this.types = types;
-    }*/
+    }
 }

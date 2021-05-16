@@ -26,6 +26,7 @@ import com.example.security.repository.UserRepository;
 import com.example.security.security.jwt.JwtUtils;
 import com.example.security.security.services.UserDetailsImpl;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @Controller
@@ -93,10 +94,12 @@ public class UserAccountController {
     //@RequestMapping(value="/confirm-reset", method= {RequestMethod.GET, RequestMethod.POST})
    // ResponseEntity<?> forgotUserPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest)
     @GetMapping("/confirm-reset")
+    @CrossOrigin(origins="http://localhost:8081")
     public ResponseEntity<?> validateResetToken(@RequestParam String confirmationToken)
     {
         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
+        System.out.println(token);
         if(token != null) {
             User user = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
            // user.setEnabled(true);
@@ -113,16 +116,20 @@ public class UserAccountController {
      * Receive the token from the link sent via email and display form to reset password
      */
     @PostMapping( "/reset-password")
-    public ResponseEntity<?> resetUserPassword(@Valid @RequestBody ConfirmResetRequest confirmResetRequest) {
+    @Transactional
+    public ResponseEntity<?> resetUserPassword(@RequestBody ConfirmResetRequest confirmResetRequest) {
          ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmResetRequest.getConfirmationToken());
+         System.out.println(confirmResetRequest.getConfirmationToken());
+         System.out.println(token);
 
         if(token.getUser().getEmail() != null) {
             // use email to find user
             User tokenUser = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
            // tokenUser.setEnabled(true);
-            tokenUser.setPassword(encoder.encode(tokenUser.getPassword()));
+            tokenUser.setPassword(encoder.encode(confirmResetRequest.getPassword()));
             // System.out.println(tokenUser.getPassword());
             userRepository.save(tokenUser);
+            confirmationTokenRepository.deleteByConfirmationToken(confirmResetRequest.getConfirmationToken());
             return ResponseEntity.ok(new MessageResponse("Password successfully reset. You can now log in with the new credentials."));
         } else {
             return ResponseEntity

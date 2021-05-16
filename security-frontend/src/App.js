@@ -15,12 +15,16 @@ import BoardAdmin from "./components/board-admin.component";
 import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
+import Products from "./components/products.component"
+import ProductDetails from "./components/productdetails.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 
 import { history } from './helpers/history';
 import ForgotPass from "./components/forgotpass.component";
+import ResetPassword from "./components/resetpassword.component";
+
 
 class App extends Component {
   constructor(props) {
@@ -113,6 +117,7 @@ class App extends Component {
                 </li>
               )}
 
+
               {currentUser && (
                 <li className="nav-item">
                   <Link to={"/products"} className="nav-link">
@@ -165,9 +170,12 @@ class App extends Component {
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
-              <Route exact path="/confirm-reset?confirmationToken=:confirmationToken" component={ConfirmReset}/>
-
+              <Route path="/products" component={Products} />
+              <Route path="/products/:productId" component={ProductDetails}/>
+              <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/profile/change_password" component={Change_password} />
+
+            
             </Switch>
           </div>
         </div>
