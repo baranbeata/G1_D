@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, withRouter } from 'react-router-dom';
 
-import { Router, Switch, Route, Link } from "react-router-dom";
+import { Router, Switch, Route, BrowserRouter, Link } from "react-router-dom";
 import Home from "./home.component";
 
 import Form from "react-validation/build/form";
@@ -17,11 +17,14 @@ class ConfirmReset extends Component {
 
 
     checkEmailValid = () => {
-        axios.get('/confirm-reset-page', {params: { confirmationToken: this.confirmationToken}})
-        .then(msg => {
+        console.log("aaaaaaaaaaaaaaaaaaa");
+        axios.get('http://localhost:8080/confirm-reset', {params: { confirmationToken: this.confirmationToken}})
+        .then(response => {
             this.setState({
-                message: msg
+                message: response.data.message
+                
             });
+            console.log(this.state.message);
         })
         .catch(err => {
             console.log(err);
@@ -30,8 +33,13 @@ class ConfirmReset extends Component {
 
     constructor(props) {
         super(props);
-        this.confirmationToken = this.props.match.params.token;
-        this.message = "";
+        const query = new URLSearchParams(this.props.location.search);
+        const token = query.get('confirmationToken')
+        this.state ={
+            message: ""
+            }
+        this.confirmationToken = token;
+        console.log(this.confirmationToken);
         this.checkEmailValid();
     }
 
@@ -44,13 +52,13 @@ class ConfirmReset extends Component {
         return (
             <div>
 
-                <Router>
+                <BrowserRouter>
                     <Switch>
                         <Route path='' render={() => {
                             return this.state.message === "Valid link." ? <Redirect to={'/reset-password'}/> : <Home/>
                         }} />
                     </Switch>
-                </Router>
+                </BrowserRouter>
             </div>
 
 
