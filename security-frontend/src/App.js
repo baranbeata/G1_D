@@ -23,6 +23,8 @@ import { clearMessage } from "./actions/message";
 
 import { history } from './helpers/history';
 import ForgotPass from "./components/forgotpass.component";
+import ResetPassword from "./components/resetpassword.component";
+
 
 class App extends Component {
   constructor(props) {
@@ -150,9 +152,12 @@ class App extends Component {
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
               <Route path="/products" component={Products} />
-              <Route path="/products/:productId"/>
-              <Route exact path="/confirm-reset?confirmationToken=:confirmationToken" component={ConfirmReset}/>
+              <Route path="/products/:productId" component={ProductDetails}/>
+              <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/profile/change_password" component={Change_password} />
+              <Route path="/reset-password" render={(props) => <ResetPassword {...props}/>}/>
+
+            
             </Switch>
           </div>
         </div>

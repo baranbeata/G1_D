@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import { Redirect, withRouter } from 'react-router-dom';
 
@@ -12,19 +13,18 @@ import { isEmail } from "validator";
 import { connect } from "react-redux";
 import { forgotpass } from "../actions/auth";
 import axios from "axios";
+import ResetPassword from "./resetpassword.component";
 
 class ConfirmReset extends Component {
 
-
     checkEmailValid = () => {
-        console.log("aaaaaaaaaaaaaaaaaaa");
+       // console.log("aaaaaaaaaaaaaaaaaaa");
         axios.get('http://localhost:8080/confirm-reset', {params: { confirmationToken: this.confirmationToken}})
         .then(response => {
             this.setState({
                 message: response.data.message
                 
             });
-            console.log(this.state.message);
         })
         .catch(err => {
             console.log(err);
@@ -33,13 +33,14 @@ class ConfirmReset extends Component {
 
     constructor(props) {
         super(props);
+        //console.log("a a a a ");
         const query = new URLSearchParams(this.props.location.search);
         const token = query.get('confirmationToken')
         this.state ={
             message: ""
             }
         this.confirmationToken = token;
-        console.log(this.confirmationToken);
+       // console.log(this.confirmationToken);
         this.checkEmailValid();
     }
 
@@ -51,11 +52,13 @@ class ConfirmReset extends Component {
     render() {
         return (
             <div>
-
                 <BrowserRouter>
                     <Switch>
+                    <Route path="/reset-password" render={(props) => <ResetPassword {...props}/>}/>
                         <Route path='' render={() => {
-                            return this.state.message === "Valid link." ? <Redirect to={'/reset-password'}/> : <Home/>
+                            return this.state.message === "Valid link." ? <Redirect to={{
+                              pathname:  '/reset-password',
+                              state: {confirmationToken: this.confirmationToken}}}/> : <Home/>
                         }} />
                     </Switch>
                 </BrowserRouter>
@@ -66,5 +69,6 @@ class ConfirmReset extends Component {
     );
     }
 };
+
 
 export default ConfirmReset;
