@@ -64,81 +64,100 @@ class App extends Component {
     return (
       <Router history={history}>
         <div>
-          <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <Link to={"/"} className="navbar-brand">
-              BaBa Company
+        <nav>
+          <header class="header">
+          <div class="container-fluid">
+          <div class="row">
+          <div class="col-xl-3 col-lg-2">
+            <Link to={"/"}>
+              <div class="header__logo">
+                <a href="/"><img src="img/logo.png" alt=""></img></a>
+              </div>
             </Link>
-            <div className="navbar-nav mr-auto">
+            </div>
+            <div class="col-xl-6 col-lg-7">
+            
+            <nav class="header__menu">
+            <ul>
               <li className="nav-item">
                 <Link to={"/home"} className="nav-link">
-                  Home
+                  <a>Home</a>
                 </Link>
               </li>
 
               {showManagerBoard && (
                 <li className="nav-item">
                   <Link to={"/manager"} className="nav-link">
-                    Manager Board
+                    <a>Manager Board</a>
                   </Link>
                 </li>
               )}
 
               {showAdminBoard && (
-                <div className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
-                    Admin Board
+                    <a>Admin Board</a>
                   </Link>
                 </li>
+              )}
+
+              {showAdminBoard && (
                 <li className="nav-item">
                     <Link to={"/register"} className="nav-link">
-                        Register new user
+                        <a>Register new user</a>
                     </Link>
                 </li>
-                </div>
               )}
 
               {currentUser && (
                 <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
-                    User
+                  <a>User</a>
                   </Link>
                 </li>
               )}
+
 
               {currentUser && (
                 <li className="nav-item">
                   <Link to={"/products"} className="nav-link">
-                    Products
+                  <a>Products</a>
                   </Link>
                 </li>
               )}
+              </ul>
+              </nav>
             </div>
 
             {currentUser ? (
-              <div className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link to={"/profile"} className="nav-link">
-                    {currentUser.username}
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <a href="/login" className="nav-link" onClick={this.logOut}>
-                    LogOut
-                  </a>
-                </li>
+              <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+
+                      <Link to={"/profile"}>
+                        <a>{currentUser.username}'s profile</a>
+                      </Link>
+
+                      <a href="/login" onClick={this.logOut}>
+                        LogOut
+                      </a>
+                    </div>
+                  </div>
               </div>
             ) : (
-              <div className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link to={"/login"} className="nav-link">
-                    Login
-                  </Link>
-                </li>
-
-
+              <div class="col-lg-3">
+                <div class="header__right">
+                  <div class="header__right__auth">
+                    <Link to={"/login"} className="nav-link">
+                      Login
+                    </Link>
+                  </div>
+                </div>
               </div>
             )}
+            </div>
+            </div>
+            </header>
           </nav>
 
           <div className="container mt-3">
