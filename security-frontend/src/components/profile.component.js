@@ -5,7 +5,7 @@ import { Router, Switch, Route, Link, Redirect} from "react-router-dom";
 class Profile extends Component {
 
     render() {
-        const { user: currentUser } = this.props;
+        const { user: currentUser, user_info: currentUser_info } = this.props;
 
         if (!currentUser) {
             return <Redirect to="/login" />;
@@ -19,28 +19,22 @@ class Profile extends Component {
               </h3>
             </header>
             <p>
-              <strong>Name:</strong>
+              <strong>Name: {currentUser_info.name} </strong>
             </p>
             <p>
-            <strong>Surname:</strong>
-            {/* <p>
-              {currentUser.roles &&
-                currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-                </p> */}
+            <strong>Surname: {currentUser_info.surname}</strong>
                 </p>
                 <p>
-                <strong>PESEL: </strong>
+                <strong>PESEL: {currentUser_info.pesel}</strong>
                </p>
                 <p>
-                <strong>Telephone: </strong>
+                <strong>Telephone: {currentUser_info.tel}</strong>
                 </p>
                 <p>
-                      <Link to={"/profile_form"} className="btn btn-primary">
-                        Edit your infomation
-                      </Link>
-                      </p>
-                      <p>
-                    <Link to="/profile/change_password" className="btn btn-primary">Change password</Link>
+                  <table>
+                  <td><Link to={"/profile_form"} className="btn btn-primary"> Edit your infomation</Link> </td>
+                   <td> <Link to="/profile/change_password" className="btn btn-primary">Change password</Link> </td>
+                    </table>
                 </p>
           </div>
         );
@@ -49,8 +43,10 @@ class Profile extends Component {
 
 function mapStateToProps(state) {
     const { user } = state.auth;
+    const { user_info } = state.auth;
     return {
         user,
+        user_info
     };
 }
 

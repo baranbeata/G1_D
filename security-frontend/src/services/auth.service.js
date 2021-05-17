@@ -48,5 +48,25 @@ class AuthService {
   forgotpass(email) {
     return axios.post(API_URL + "forgot-password", {email});
   }
+
+  infoedit(username, name, surname, pesel,tel)
+  {
+    return axios.post(API_URL + "profile/profile_form",
+        {
+        username,
+        name,
+        surname,
+        pesel,
+        tel
+  }).then((response) => {
+    if (response.data.accessToken) {
+      localStorage.setItem("user_info", JSON.stringify(response.data));
+       localStorage.setItem('username', username);
+    }
+
+    return response.data;
+  });
+
+  }
 }
 export default new AuthService();

@@ -119,3 +119,37 @@ export const changePassword=(username,newpassword,password)=>(dispatch)=>{
         }
     );
 };
+
+export const infoedit=(username,name, surname, pesel,tel)=>(dispatch)=>{
+
+  return  AuthService.infoedit(username,name, surname, pesel,tel).then(
+      (response) => {
+          dispatch({
+              type: CHANGED_SUCCESS,
+              payload: { user: response},
+          });
+          dispatch({
+              type: SET_MESSAGE,
+              payload: response.data.message,
+          });
+
+          return Promise.resolve();
+      },
+      (error) => {
+          const message =
+              (error.response &&
+                  error.response.data &&
+                  error.response.data.message)
+              ||
+              error.message ||
+              error.toString();
+
+          dispatch({
+              type: SET_MESSAGE,
+              payload: message,
+          });
+
+          return Promise.reject();
+      }
+  );
+};
