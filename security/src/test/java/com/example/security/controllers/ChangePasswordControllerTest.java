@@ -1,107 +1,145 @@
 package com.example.security.controllers;
 
 import com.example.security.models.User;
-import com.example.security.repository.ConfirmationTokenRepository;
+import com.example.security.payload.request.ChangePasswordRequest;
 import com.example.security.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.security.security.services.EmailSenderService;
+import com.example.security.security.services.UserDetailsImpl;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.web.context.WebApplicationContext;
 
-//@SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
-@AutoConfigureMockMvc
-public class ChangePasswordControllerTest {
+import java.util.ArrayList;
+import java.util.List;
 
-    private MockMvc mockMvc;
+
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ComponentScan({"com.example.security.security"})
+
+@WebMvcTest(ChangePasswordController.class)
+class ChangePasswordControllerTest {
+
+    @Autowired
+    private ChangePasswordController changepasswordcontroller;
+
+    @MockBean
+    public JavaMailSender sender;
+
+    @Autowired
+    private MockMvc mvc;
+
+    private WebApplicationContext context;
 
     @Before
     public void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userAccountController).build();
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(SecurityMockMvcConfigurers.springSecurity())
+                .build();
     }
+
     @MockBean
     private UserRepository userRepository;
 
-    @MockBean
-    private ConfirmationTokenRepository confirmationTokenRepository;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
-    @InjectMocks
-    private UserAccountController userAccountController;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-
-
-
-  /*  @Before
-    public void init() {
-        User user = userRepository.findByEmailIgnoreCase("test@test.com");
-        if (user == null) {
-            User superUser = new User("testowanie", "test@test.com", passwordEncoder.encode("test"));
-            userRepository.save(superUser);
-        } else {
-            user.setPassword(passwordEncoder.encode("test"));
-            userRepository.save(user);
-        }
-
-        RestAssured.port = port;
-        RestAssured.baseURI = "http://localhost";
-     //   System.out.printf("url %s %d",URL, port);
-        URL = "profile/change_password";
-        formConfig = new FormAuthConfig("/signin", "Ola123", "ola123");
-    }
-
-    @After
-    public void resetUserPassword() {
-        final User user = userRepository.findByEmailIgnoreCase("test@test.com");
-        user.setPassword(passwordEncoder.encode("test"));
-        userRepository.save(user);
-    }
-*/
     @Test
-    public void givenLoggedInUser_whenChangingPassword_thenCorrect() throws Exception {
+    void changePassword_withGivenWrongOldPassword_ThenIncorrect() throws Exception {
 
-        String password = "test123";
-        String newpassword = "nowetest123";
-        User user = new User("test100","test@wp.pl","test123");
+     //   PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("tests");
+        user.setPassword(passwordEncoder.encode("tests123"));
+        user.setEmail("tests@test.com");
 
-        mockMvc.perform( MockMvcRequestBuilders
-                .post("/profile/change_password")
-                .param("password", password)
-                .param("newpassword", newpassword))
-                .andExpect(status().is(404));
+        List<User> users = new ArrayList<>();
+        users.add(user);
 
+        Mockito.when(userRepository.findAll()).thenReturn(users);
+        Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
+
+        ChangePasswordRequest change = new ChangePasswordRequest();
+        change.setUsername("tests");
+        change.setPassword("tests12345");
+        change.setNewpassword("newpassword");
+
+        ResponseEntity<?> responseEntity = changepasswordcontroller.changePassword(change);
+
+        assertEquals(400, responseEntity.getStatusCode().value());
     }
 
     @Test
-    public void givenLoggedInUser_whenChangingPasswordWithBadOldPassword_thenInCorrect() throws Exception {
+    void changePassword_withGivenCorrectOldPassword_ThenOk() throws Exception {
 
-        String password = "bad_password";
-        String newpassword = "nowetest123";
-        User user = new User("test100","test@wp.pl","test123");
+     //   PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("tests");
+        user.setPassword(passwordEncoder.encode("tests123"));
+        user.setEmail("tests@test.com");
 
-        mockMvc.perform( MockMvcRequestBuilders
-                .post("/profile/change_password")
-                .param("password", password)
-                .param("newpassword", newpassword))
-                .andExpect(status().is(404));
+        List<User> users = new ArrayList<>();
+        users.add(user);
 
+        Mockito.when(userRepository.findAll()).thenReturn(users);
+        Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
+
+        ChangePasswordRequest change = new ChangePasswordRequest();
+        change.setUsername("tests");
+        change.setPassword("tests123");
+        change.setNewpassword("newpassword");
+
+        ResponseEntity<?> responseEntity = changepasswordcontroller.changePassword(change);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON);
+
+        //"Your password was changed successfully!"
+        assertEquals(200, responseEntity.getStatusCodeValue());
     }
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    @Test
+    void changePassword_withNonExistingUser() throws Exception {
+
+        try
+        {
+            ChangePasswordRequest change = new ChangePasswordRequest();
+            change.setUsername("tests");
+            change.setPassword("tests123");
+            change.setNewpassword("newpassword");
+            ResponseEntity<?> responseEntity = changepasswordcontroller.changePassword(change);
+            fail("Should have thrown SomeException but did not!");
+        }
+        catch( final RuntimeException e )
+        {
+            final String msg = "Error: User with given username not found.";
+            assertEquals(msg, e.getMessage());
         }
     }
-
 }
