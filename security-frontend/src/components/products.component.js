@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import {Link, Redirect} from 'react-router-dom';
 import ProductService from "../services/product.service";
+import axios from "axios";
 
 
 class Products extends Component {
@@ -9,7 +10,8 @@ class Products extends Component {
         super(props);
     
         this.state = {
-          products: []
+          products: [],
+          responseMessage: ""
         };
       }
     
@@ -31,6 +33,24 @@ class Products extends Component {
             });
           }
         );
+      }
+
+      handleProductDelete(productId) {
+        axios.delete("http://localhost:8080/products", { data: { id: productId } })
+        .then(response => {
+          this.setState({
+              responseMessage: response
+
+            }
+            );
+            console.log(this.state.responseMessage);
+      })
+      .catch(response => {
+          this.setState({
+              responseMessage: response
+          });
+          console.log(this.state.responseMessage);
+      });
       }
 
     render() {
@@ -65,7 +85,8 @@ class Products extends Component {
                               <td>{product.name}</td>
                               <td>{product.size}</td>
                               <td>{product.price}</td>          
-                              <td><button className="btn btn-info btn-sm">Details</button></td>                 
+                              <td><button className="btn btn-info btn-sm">Details</button></td>
+                               <td><button onClick={this.handleProductDelete(product.id)}>Delete</button></td>                    
                           </tr>
                           </div>
                         //</Link>

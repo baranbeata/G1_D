@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +28,18 @@ public class ProductController {
     ResponseEntity<Optional<Product>> getSingleProduct(@PathVariable long id) {
             return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
             
+    }
+
+    @DeleteMapping("/products/{id}")
+    public @NotNull
+    ResponseEntity<Long> deleteProduct(@PathVariable long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isEmpty())
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        productRepository.deleteById(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
 }
