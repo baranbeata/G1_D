@@ -12,7 +12,7 @@ You can install Intelij Idea to run this project or simply use this command in t
 ```
 mvn -B package --file pom.xml
 ```
-Backend side of application runs on 8080 port (http://localhost:8080).
+Backend side of the application runs on 8080 port (http://localhost:8080).
 #### Frontend:
 To run application frontend in the development mode, you can use:
 ```
