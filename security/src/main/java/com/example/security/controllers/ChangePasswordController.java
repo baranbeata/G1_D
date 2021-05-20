@@ -9,11 +9,11 @@ import com.example.security.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
+@Controller
 @RequestMapping("/api/auth")
 
 public class ChangePasswordController {
@@ -31,15 +31,9 @@ public class ChangePasswordController {
     JwtUtils jwtUtils;
 
     @PostMapping("/profile/change_password")
+    @CrossOrigin(origins="http://localhost:8081")
   //  @PreAuthorize("hasRole('READ_PRIVILEGE')")
- //   public ResponseEntity<String> changePassword(@Valid @RequestBody String username,String password, String oldPassword) {
-public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changepasswordrequest){//,@RequestParam String new_password){
-
-       // System.out.format("password: %s\n ", changepasswordrequest.getPassword());
-      //  System.out.format("name : %s\n ", changepasswordrequest.getUsername());
-      //  System.out.format("funckja: %s\n", SecurityContextHolder.getContext().getAuthentication().getName());
-        //System.out.format("new %s\n",changepasswordrequest.getnewPassword());
-
+public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changepasswordrequest){
 
         User currentUser= this.userRepository.findByUsername(changepasswordrequest.getUsername()).
                 orElseThrow(() -> new RuntimeException("Error: User with given username not found."));

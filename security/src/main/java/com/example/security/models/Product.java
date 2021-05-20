@@ -26,14 +26,14 @@ public class Product {
 
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_category",
+    @JoinTable(	name = "product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
 
     private Set<Category> categories = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_type",
+    @JoinTable(	name = "product_type",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
 
@@ -44,7 +44,7 @@ public class Product {
 
     public Product(String name, String size, Float price) {
         this.name = name;
-        this.size=size;
+        this.size = size;
         this.price =price;
     }
 
