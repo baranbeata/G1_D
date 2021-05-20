@@ -1,6 +1,7 @@
 package com.example.security.models;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,6 +24,9 @@ public class Product {
 
     @NonNull
     private Float price;
+
+    @Nullable
+    private String description;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -88,6 +92,13 @@ public class Product {
         this.categories = categories;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description=description;
+    }
 
     public Set<Type> getTypes() {
         return types;
