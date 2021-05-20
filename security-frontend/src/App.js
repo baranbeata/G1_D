@@ -9,13 +9,13 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardEmployee from "./components/board-employee.component";
+import User from "./components/userInfo.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
 import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
-import Profile_form from "./components/profile_form.component";
+import infoEdit_form from "./components/infoEdit_form.component";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 
@@ -135,13 +135,13 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/profile" component={Profile} />
-              <Route path="/user" component={BoardEmployee} />
+              <Route exact path="/user" component={User} />
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
               <Route exact path="/confirm-reset?confirmationToken=:confirmationToken" component={ConfirmReset}/>
-              <Route path="/profile_form" component={Profile_form} />
               <Route exact path="/profile/change_password" component={Change_password} />
+              <Route exact path="/user/infoEdit-form" component={infoEdit_form} />
             </Switch>
           </div>
         </div>

@@ -1,5 +1,7 @@
 package com.example.security.controllers;
 import javax.validation.Valid;
+
+import com.example.security.models.Info;
 import com.example.security.models.User;
 import com.example.security.payload.request.InfoEditRequest;
 import com.example.security.payload.response.MessageResponse;
@@ -23,7 +25,7 @@ public class InfoEditController {
     @Autowired
     InfoRepository infoRepository;
 
-    @PostMapping("/profile/profile_form")
+    @PostMapping("/user/infoEdit-form")
 
     public ResponseEntity<?> editInfo(@Valid @RequestBody InfoEditRequest infoEditRequest){
 
@@ -31,10 +33,11 @@ public class InfoEditController {
                 orElseThrow(() -> new RuntimeException("Error: User with given username not found."));
 
         if(currentUser != null) {
-
+            Info currentInfo = new Info(infoEditRequest.getName(),
+                    infoEditRequest.getSurname(),infoEditRequest.getPesel(),
+                    infoEditRequest.getTel());
 
         }
-
 
         userRepository.save(currentUser);
         return ResponseEntity.ok(new MessageResponse("Your data were changed successfully!"));

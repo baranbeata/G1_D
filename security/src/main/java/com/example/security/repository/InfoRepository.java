@@ -11,6 +11,6 @@ public interface InfoRepository extends JpaRepository<Info, Long> {
     Info findBySurname(String surname);
     Info findByPesel(String pesel);
     Info findByTel(String tel);
-    Boolean existById(Long id);
+
 
 }

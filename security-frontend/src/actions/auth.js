@@ -118,38 +118,40 @@ export const changePassword=(username,newpassword,password)=>(dispatch)=>{
             return Promise.reject();
         }
     );
-};
-
-export const infoedit=(username,name, surname, pesel,tel)=>(dispatch)=>{
-
-  return  AuthService.infoedit(username,name, surname, pesel,tel).then(
-      (response) => {
+  };
+    export const infoedit = (name,surname,pesel,tel) => (dispatch) => {
+      return AuthService.infoedit(name,surname,pesel,tel).then(
+        (response) => {
           dispatch({
-              type: CHANGED_SUCCESS,
-              payload: { user: response},
+            type: REGISTER_SUCCESS,
           });
+    
           dispatch({
-              type: SET_MESSAGE,
-              payload: response.data.message,
+            type: SET_MESSAGE,
+            payload: response.data.message,
           });
-
+    
           return Promise.resolve();
-      },
-      (error) => {
+        },
+        (error) => {
           const message =
-              (error.response &&
-                  error.response.data &&
-                  error.response.data.message)
-              ||
-              error.message ||
-              error.toString();
-
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+    
           dispatch({
-              type: SET_MESSAGE,
-              payload: message,
+            type: REGISTER_FAIL,
           });
-
+    
+          dispatch({
+            type: SET_MESSAGE,
+            payload: message,
+          });
+    
           return Promise.reject();
-      }
-  );
-};
+        }
+      );
+    };
+  

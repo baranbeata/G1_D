@@ -51,7 +51,7 @@ class AuthService {
 
   infoedit(username, name, surname, pesel,tel)
   {
-    return axios.post(API_URL + "profile/profile_form",
+    return axios.post(API_URL + "user/infoEdit-form",
         {
         username,
         name,
