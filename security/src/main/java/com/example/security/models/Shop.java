@@ -22,6 +22,9 @@ public class Shop {
     @NonNull
     private String city;
 
+    @NonNull
+    private String hours;
+
     @OneToMany(mappedBy = "shop")
     private List<User> users=new ArrayList<User>();
 
@@ -63,6 +66,12 @@ public class Shop {
     }
 
     public void setCity(String city) { this.city = city; }
+
+    public String getHours() {
+        return hours;
+    }
+
+    public void setHours(String hours) { this.hours = hours; }
 
     public List<User> getUsers() {
         return users;
