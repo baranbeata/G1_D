@@ -1,6 +1,7 @@
 package com.example.security.models;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,10 +20,10 @@ public class Product {
     private String name;
 
     @NonNull
-    private String size;
-
-    @NonNull
     private Float price;
+
+    @Nullable
+    private String description;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -39,12 +40,18 @@ public class Product {
 
     private Set<Type> types = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "product_size",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "size_id"))
+
+    private Set<Size> sizes = new HashSet<>();
+
     public Product() {
     }
 
-    public Product(String name, String size, Float price) {
+    public Product(String name,  Float price) {
         this.name = name;
-        this.size = size;
         this.price =price;
     }
 
@@ -64,14 +71,6 @@ public class Product {
         this.name=name;
     }
 
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
     public Float getPrice() {
         return price;
     }
@@ -88,6 +87,13 @@ public class Product {
         this.categories = categories;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description=description;
+    }
 
     public Set<Type> getTypes() {
         return types;
@@ -95,5 +101,13 @@ public class Product {
 
     public void setTypes(Set<Type> types ) {
         this.types = types;
+    }
+
+    public Set<Size> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(Set<Size> sizes ) {
+        this.sizes = sizes;
     }
 }

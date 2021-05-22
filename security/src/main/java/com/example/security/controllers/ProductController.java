@@ -1,7 +1,9 @@
 package com.example.security.controllers;
 
 import com.example.security.models.Product;
+import com.example.security.models.Shop;
 import com.example.security.repository.ProductRepository;
+import com.example.security.repository.ShopRepository;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,19 +17,20 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    ProductRepository productRepository;
+    ProductRepository productrepository;
 
     @GetMapping("/products")
     public @NotNull
     ResponseEntity<Iterable<Product>> getProducts(@RequestParam(required = false) Iterable<Product> products) {
-        return new ResponseEntity<>(productRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(productrepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/products/{id}")
-    public @NotNull
-    ResponseEntity<Optional<Product>> getSingleProduct(@PathVariable long id) {
-            return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
-            
+    @CrossOrigin(origins="http://localhost:8081")
+    public @NotNull ResponseEntity<Optional<Product>> getSingleProduct(@RequestParam("id") int id) {
+
+        return new ResponseEntity<>(productrepository.findById((long) id), HttpStatus.OK);
+
     }
 
     @DeleteMapping("/products/{id}")

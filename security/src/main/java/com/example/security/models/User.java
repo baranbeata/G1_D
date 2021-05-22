@@ -24,6 +24,8 @@ public class User {
     @NonNull
     private String email;
 
+
+
     @NonNull
     private String password;
 
@@ -36,6 +38,13 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
+
 
     public User() {
     }
@@ -88,4 +97,10 @@ public class User {
     }
 
     public void setRoles(Set<Role> roles) { this.roles = roles; }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) { this.shop = shop; }
 }
