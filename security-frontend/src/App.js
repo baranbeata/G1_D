@@ -16,7 +16,7 @@ import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
 import Products from "./components/products.component"
-import ProductDetails from "./components/productdetails.component"
+import  ProductDetails from "./components/productdetails.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -24,6 +24,8 @@ import { clearMessage } from "./actions/message";
 import { history } from './helpers/history';
 import ForgotPass from "./components/forgotpass.component";
 import ResetPassword from "./components/resetpassword.component";
+import Shops from "./components/shops.component";
+import ShopDetails from "./components/shopdetails.component"
 
 
 class App extends Component {
@@ -125,6 +127,15 @@ class App extends Component {
                   </Link>
                 </li>
               )}
+
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/shops"} className="nav-link">
+                      <a>Shops</a>
+                    </Link>
+                  </li>
+              )}
+
               </ul>
               </nav>
             </div>
@@ -170,11 +181,12 @@ class App extends Component {
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
-              <Route path="/products" component={Products} />
-              <Route path="/products/:productId" component={ProductDetails}/>
+              <Route exact path="/products" component={Products} />
+              <Route exact path="/products/:id" component={ProductDetails}/>
               <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/profile/change_password" component={Change_password} />
-
+              <Route exact path="/shops" component={Shops} />
+              <Route exact path="/shops/:id" component={ShopDetails}/>
             
             </Switch>
           </div>
