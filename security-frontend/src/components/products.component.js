@@ -36,14 +36,14 @@ class Products extends Component {
         );
     }
 
-      handleProductDelete = product => {
-          console.log(product.id);
-        const url = `http://localhost:8080/products/${product.id}`;
+      handleProductDelete = id => {
+          console.log(id);
+        const url = `http://localhost:8080/products/${id}`;
         axios.delete(url)
         .then(response => {
           this.setState(previousState => {
                 return {
-                    products: previousState.products.filter(p => p.id !== product.id)
+                    products: previousState.products.filter(p => p.id !== id)
                 };
             });
       })
@@ -85,7 +85,7 @@ class Products extends Component {
                               <td>{product.size}</td>
                               <td>{product.price}</td>
                               <td><button className="btn btn-info btn-sm">Details</button></td>
-                               <td><button className="btn btn-lg btn-outline-danger ml-4" onClick={e => this.handleProductDelete(e, product)}>Delete</button></td>
+                               <td><button className="btn btn-lg btn-outline-danger ml-4" value={product.id} onClick={() => this.handleProductDelete(product.id)}>Delete</button></td>
                           </tr>
                           </div>
                         //</Link>
