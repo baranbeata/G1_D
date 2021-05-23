@@ -32,4 +32,17 @@ public class ProductController {
 
     }
 
+    @DeleteMapping("/products/{id}")
+    @CrossOrigin(origins="http://localhost:8081")
+    public @NotNull
+    ResponseEntity<Long> deleteProduct(@PathVariable long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isEmpty())
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        productRepository.deleteById(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
 }

@@ -30,6 +30,7 @@ const ProductDetails = _ => {
             <p>
                 <strong>Description:</strong> {state.products.description}
             </p>
+            <img src={process.env.PUBLIC_URL + "/img/product/details/product-1.jpg"} alt="image" />
         </div>
     );
 };
