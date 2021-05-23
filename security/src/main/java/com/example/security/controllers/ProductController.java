@@ -17,19 +17,19 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    ProductRepository productrepository;
+    ProductRepository productRepository;
 
     @GetMapping("/products")
     public @NotNull
     ResponseEntity<Iterable<Product>> getProducts(@RequestParam(required = false) Iterable<Product> products) {
-        return new ResponseEntity<>(productrepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(productRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/products/{id}")
     @CrossOrigin(origins="http://localhost:8081")
-    public @NotNull ResponseEntity<Optional<Product>> getSingleProduct(@RequestParam("id") int id) {
+    public @NotNull ResponseEntity<Optional<Product>> getSingleProduct(@PathVariable long id) {
 
-        return new ResponseEntity<>(productrepository.findById((long) id), HttpStatus.OK);
+        return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
 
     }
 

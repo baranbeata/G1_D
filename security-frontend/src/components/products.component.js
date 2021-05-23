@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import {Link, Redirect} from 'react-router-dom';
 import ProductService from "../services/product.service";
+import axios from "axios";
 
 
 
@@ -35,21 +36,19 @@ class Products extends Component {
         );
     }
 
-      handleProductDelete(productId) {
-        axios.delete("http://localhost:8080/products", { data: { id: productId } })
+      handleProductDelete = product => {
+          console.log(product.id);
+        const url = `http://localhost:8080/products/${product.id}`;
+        axios.delete(url)
         .then(response => {
-          this.setState({
-              responseMessage: response
-
-            }
-            );
-            console.log(this.state.responseMessage);
+          this.setState(previousState => {
+                return {
+                    products: previousState.products.filter(p => p.id !== product.id)
+                };
+            });
       })
       .catch(response => {
-          this.setState({
-              responseMessage: response
-          });
-          console.log(this.state.responseMessage);
+          console.log(response);
       });
       }
 
@@ -78,7 +77,7 @@ class Products extends Component {
                     </tr>
 
                         {this.state.products &&
-                        this.state.products.map((product, index) =>
+                        this.state.products.map(product =>
                         //<Link to={`products/${product.id}`} className="nav-link">
                           <div className="styled" >
                           <tr>
@@ -86,7 +85,7 @@ class Products extends Component {
                               <td>{product.size}</td>
                               <td>{product.price}</td>
                               <td><button className="btn btn-info btn-sm">Details</button></td>
-                               <td><button onClick={this.handleProductDelete(product.id)}>Delete</button></td>
+                               <td><button className="btn btn-lg btn-outline-danger ml-4" onClick={e => this.handleProductDelete(e, product)}>Delete</button></td>
                           </tr>
                           </div>
                         //</Link>
