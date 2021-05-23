@@ -118,4 +118,37 @@ export const changePassword=(username,newpassword,password)=>(dispatch)=>{
             return Promise.reject();
         }
     );
+  };
+  export const infoedit=(username_fk, name, surname, pesel,tel)=>(dispatch)=>{
+
+    return  AuthService.infoedit(username_fk, name, surname, pesel,tel).then(
+        (response) => {
+            dispatch({
+                  type: CHANGED_SUCCESS,
+                  payload: { user: response},
+            });
+              dispatch({
+                  type: SET_MESSAGE,
+                  payload: response.data.message,
+              });
+  
+              return Promise.resolve();
+          },
+          (error) => {
+              const message =
+                  (error.response &&
+                      error.response.data &&
+                      error.response.data.message)
+                  ||
+                  error.message ||
+                  error.toString();
+  
+              dispatch({
+                  type: SET_MESSAGE,
+                  payload: message,
+              });
+  
+              return Promise.reject();
+          }
+      );
 };
