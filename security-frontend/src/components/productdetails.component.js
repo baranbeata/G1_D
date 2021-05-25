@@ -12,6 +12,7 @@ const ProductDetails = _ => {
                 </h3>
             </header>
 
+<div>
             <p>
                 <strong>Name:</strong> {state.products.name}
             </p>
@@ -30,7 +31,10 @@ const ProductDetails = _ => {
             <p>
                 <strong>Description:</strong> {state.products.description}
             </p>
-            <img src={process.env.PUBLIC_URL + "/img/product/details/product-1.jpg"} alt="image" />
+            </div>
+            <div>
+                <img src={process.env.PUBLIC_URL + "/img/product/product-1.jpg"} alt="image" />
+            </div>
         </div>
     );
 };
