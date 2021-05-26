@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import {Link, Redirect} from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 class Profile extends Component {
 
@@ -34,7 +35,7 @@ class Profile extends Component {
                     currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
                 </ul>
 
-                <Link to="/profile/change_password" className="btn btn-primary">Change password</Link>
+                <Link to="/profile/change_password" style={{textDecoration: 'none'}}><button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Change password</button></Link>
             </div>
 
 

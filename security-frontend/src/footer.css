@@ -1,0 +1,8 @@
+.footer {
+/*bottom: 0;*/
+width: 100%;
+background-color: rgb(233, 236, 239);
+flex: 0 0 50px;
+margin-top: auto;
+height: 50px;
+}
