@@ -5,6 +5,8 @@ import ProductService from "../services/product.service";
 import axios from "axios"
 
 
+import TextField from '@material-ui/core/TextField';
+import { Input } from '@material-ui/core';
 
 class Products extends Component {
     constructor(props) {
@@ -60,11 +62,14 @@ class Products extends Component {
 
         return (
             <div className="container">
-                <header className="jumbotron">
-                    <h3>
-                        <strong>Our products</strong>
-                    </h3>
+                <header style={{ paddingTop: "50px"}}>
+                    <h2 style={{ fontFamily: "Corbel Light", color: 'rgb(207,16,26)'}}>
+                        PRODUCTS
+                    </h2>
                 </header>
+
+                <img src="/img/search.png"></img>
+                <Input disableUnderline="true" placeholder="Search" inputProps={{ 'aria-label': 'description' }} style={{ marginBottom: "20px", underlineColor: "black"}} />
 
                 <table className="table">
                     <tbody>
@@ -115,6 +120,7 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps)(Products);
+
 
 /*
 {this.state.products.map((product, index) => {

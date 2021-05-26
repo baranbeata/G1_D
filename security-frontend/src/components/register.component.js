@@ -6,6 +6,8 @@ import { isEmail } from "validator";
 import { connect } from "react-redux";
 import { register } from "../actions/auth";
 import { Redirect } from 'react-router-dom';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const required = (value) => {
   if (!value) {
@@ -145,12 +147,7 @@ class Register extends Component {
 
     return (
       <div className="col-md-12">
-        <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
+        <div className="card card-container" style={{ backgroundColor: 'white'}}>
 
           <Form
             onSubmit={this.handleRegister}
@@ -197,7 +194,9 @@ class Register extends Component {
                 </div>
 
                 <div className="form-group">
+                  <table>
                   <label htmlFor="employee">
+                  <td>
                   <Input
                     type="checkbox"
                     className="checkbox-control"
@@ -205,9 +204,12 @@ class Register extends Component {
                     value="employee"
                     checked={this.state.role === "employee"}
                     onChange={this.onChangeRole}
-                  /> employee </label>
+                  /></td> <td>employee</td> </label>
+                  </table>
 
+                  <table>
                   <label htmlFor="manager">
+                  <td>
                   <Input
                     type="checkbox"
                     className="checkbox-control"
@@ -215,21 +217,29 @@ class Register extends Component {
                     value="manager"
                     checked={this.state.role === "manager"}
                     onChange={this.onChangeRole}
-                  /> manager </label>
+                  /></td> <td>manager</td> </label>
+                  </table>
 
+                  <table>
                   <label htmlFor="supplier">
+                  <td>
                   <Input
                     type="checkbox"
+                    label="supplier"
+                    labelPlacement="end"
                     className="checkbox-control"
                     name="role"
                     value="supplier"
                     checked={this.state.role === "supplier"}
                     onChange={this.onChangeRole}
-                  /> supplier </label>
+                  /></td> <td> supplier</td> </label>
+                  </table>
+
                 </div>
+                
 
                 <div className="form-group">
-                  <button className="btn btn-primary btn-block">Sign Up</button>
+                  <button className="btn btn-primary btn-block" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Sign Up</button>
                 </div>
               </div>
             )}
