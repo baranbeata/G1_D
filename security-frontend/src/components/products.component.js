@@ -75,9 +75,9 @@ class Products extends Component {
                     <tbody>
                     <tr>
                         <td>Name:</td>
-                        <td>Address:</td>
-                        <td>City:</td>
-                        <td>Delete</td>
+                        <td>Type:</td>
+                        <td>Details:</td>
+                        <td>Delete:</td>
                     </tr>
 
                     {this.state. products &&
@@ -85,15 +85,16 @@ class Products extends Component {
                             <tr>
                                 <td>{ product.name}</td>
                                 <td>{ product.type}</td>
-
+                                <td>
                                 <Link
                                     to={{
                                         pathname: `/products/${product.id}`,
                                         state: {  products:  product }
                                     }}
                                 >
-                                    <td><button className="btn btn-info btn-sm">Details</button></td>
+                                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button>
                                 </Link>
+                                </td>
                                 <td><button className="btn btn-outline-danger ml-4" value={product.id} onClick={() => this.handleProductDelete(product.id)}>Delete</button></td>
 
                             </tr>
