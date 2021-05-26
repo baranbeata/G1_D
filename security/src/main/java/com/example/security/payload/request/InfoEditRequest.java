@@ -16,16 +16,16 @@ public class InfoEditRequest {
     private String tel;
 
     @NonNull
-    private String username_fk;
+    private Long userId;
     @NonNull
     private String username;
 
-    public String getUsername_fk() {
-        return username_fk;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUsername_fk(String username_fk) {
-        this.username_fk = username_fk;
+    public void setUsernameFk(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

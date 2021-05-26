@@ -89,7 +89,7 @@ class infoEdit_form extends Component {
         if (errors.length === 0 ) {
             this.props
                 .dispatch(
-                    infoedit(localStorage.getItem("username_fk"), this.state.name, this.state.surname, this.state.pesel, this.state.tel)
+                    infoedit(localStorage.getItem("userId"), this.state.name, this.state.surname, this.state.pesel, this.state.tel)
                 )
                 .then(() => {
                     this.setState({

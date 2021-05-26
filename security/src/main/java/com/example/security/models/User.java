@@ -1,9 +1,6 @@
 package com.example.security.models;
-import com.example.security.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +35,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(mappedBy = "user")
-    private Info info;
+    private InfoEdit infoEdit;
     
     public User() {
     }

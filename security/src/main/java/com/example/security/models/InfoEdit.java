@@ -13,10 +13,10 @@ import javax.persistence.*;
 @Entity
 @Table(	name = "info")
 
-public class Info {
+public class InfoEdit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @NonNull
     private String name;
@@ -31,25 +31,25 @@ public class Info {
     private String tel;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username_fk", referencedColumnName = "username")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
-    public Info() {
+    public InfoEdit() {
 
     }
 
-    public Info(String name, String surname, String pesel, String tel) {
+    public InfoEdit(String name, String surname, String pesel, String tel) {
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
         this.tel = tel;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
