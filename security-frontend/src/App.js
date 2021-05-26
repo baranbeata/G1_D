@@ -9,7 +9,7 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-
+import BoardEmployee from "./components/board-employee.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
 import Footer from './footer'
@@ -25,6 +25,7 @@ import { history } from './helpers/history';
 import ForgotPass from "./components/forgotpass.component";
 import ResetPassword from "./components/resetpassword.component";
 import Shops from "./components/shopList.component";
+import ShopDetails from "./components/shopdetails.component"
 
 
 class App extends Component {
@@ -138,8 +139,6 @@ class App extends Component {
               </nav>
             </div>
 
-            
-
             {currentUser ? (
               <div class="col-lg-3">
                 <div class="header__right">
@@ -181,13 +180,14 @@ class App extends Component {
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/forgot-password" component={ForgotPass} />
-              <Route path="/products" component={Products} />
-              <Route path="/products/:productId" component={ProductDetails}/>
+              <Route exact path="/products" component={Products} />
+              <Route exact path="/products/:id" component={ProductDetails}/>
               <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/user/infoEdit-form" component={infoEdit_form} />
               <Route exact path="/profile/change_password" component={Change_password} />
               <Route exact path="/shops" component={Shops} />
-            
+              <Route exact path="/shops/:id" component={ShopDetails}/>
+
             </Switch>
           </div>
         </div>

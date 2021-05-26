@@ -90,7 +90,7 @@ public class UserAccountControllerTest {
                 .content(asJsonString("nati.bienkowska@gmail.com"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
-              //  .andExpect(status().isOk());
+        //  .andExpect(status().isOk());
 
         //verify(userRepository).findByEmailIgnoreCase("nati.bienkowska@gmail.com");
         assertEquals(usr,userRepository.findByEmailIgnoreCase("nati.bienkowska@gmail.com"));
@@ -123,7 +123,7 @@ public class UserAccountControllerTest {
                 .content(asJsonString(confirmationToken.getConfirmationToken()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
-               // .andExpect(status().isBadRequest());
+        // .andExpect(status().isBadRequest());
     }
 
     public static String asJsonString(final Object obj) {

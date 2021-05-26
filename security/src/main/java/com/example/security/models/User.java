@@ -37,6 +37,13 @@ public class User {
     @OneToOne(mappedBy = "user")
     private InfoEdit infoEdit;
     
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
+
+
     public User() {
     }
 
@@ -88,4 +95,10 @@ public class User {
     }
 
     public void setRoles(Set<Role> roles) { this.roles = roles; }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) { this.shop = shop; }
 }
