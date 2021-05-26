@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InfoEditRepository extends JpaRepository<InfoEdit, Long> {
+    //InfoEdit findByUsername(String Username);
     InfoEdit findByName(String name);
     InfoEdit findBySurname(String surname);
     InfoEdit findByPesel(String pesel);
     InfoEdit findByTel(String tel);
-    InfoEdit findByUserId(String userId);
+    InfoEdit findByUserId(Long userId);
 }

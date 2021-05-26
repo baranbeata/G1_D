@@ -9,7 +9,6 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardEmployee from "./components/board-employee.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
 import Footer from './footer'

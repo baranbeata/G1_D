@@ -16,17 +16,7 @@ public class InfoEditRequest {
     private String tel;
 
     @NonNull
-    private Long userId;
-    @NonNull
     private String username;
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUsernameFk(Long userId) {
-        this.userId = userId;
-    }
 
     public String getUsername() {
         return username;

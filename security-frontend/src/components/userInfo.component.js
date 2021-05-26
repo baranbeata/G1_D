@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import { Router, Switch, Route, Link, Redirect} from "react-router-dom";
 import InfoService from "../services/info.service";
+import AuthService from "../services/auth.service";
 
 class User extends Component {
 
@@ -14,7 +15,8 @@ class User extends Component {
   }
 
   componentDidMount() {
-    InfoService.getInfo().then(
+    this.props
+                .dispatch(AuthService.getInfo(localStorage.getItem("username")).then(
       response => {
         this.setState({
           infos: response.data
@@ -22,7 +24,7 @@ class User extends Component {
       },
       error => {
         this.setState({
-          info:
+          infos:
             (error.response &&
               error.response.data &&
               error.response.data.message) ||
@@ -30,7 +32,9 @@ class User extends Component {
             error.toString()
         });
       }
+                )
     );
+                
   }
 
     render() {
@@ -49,7 +53,7 @@ class User extends Component {
             </header>
 
             {this.state.infos &&
-                        this.state.infos.map((info, index) =>       
+                        this.state.infos.map( info =>       
                         <div> 
             <p>
               <strong>Name: {info.name} </strong>
@@ -63,7 +67,10 @@ class User extends Component {
                 <p>
                 <strong>Telephone: {info.tel} </strong>
                 </p> 
-                 </div>)} 
+                 </div>
+                 )
+                 } 
+                 
                 <p>
                   <table>
                    <td> <Link to="/user/infoEdit-form" className="btn btn-primary">Edit information</Link> </td>

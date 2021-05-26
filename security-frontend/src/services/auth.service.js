@@ -45,10 +45,10 @@ class AuthService {
 
   }
 
-  infoedit(userId, name, surname, pesel,tel){
+  infoedit(username, name, surname, pesel,tel){
     return axios.post(API_URL + "user/infoEdit-form",
     {
-    userId,
+    username,
     name,
     surname,
     pesel,
@@ -59,6 +59,13 @@ class AuthService {
 
   forgotpass(email) {
     return axios.post(API_URL + "forgot-password", {email});
+  }
+
+  getInfo(username) {
+    return axios.get(API_URL + 'user',
+    {
+      username
+    })
   }
 }
 export default new AuthService();

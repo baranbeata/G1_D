@@ -4,8 +4,11 @@ const API_URL = 'http://localhost:8080/';
 
 class InfoService {
 
-  getInfo() {
-    return axios.get(API_URL + 'user');
+  getInfo(username) {
+    return axios.get(API_URL + 'user',
+    {
+      username
+    })
   }
   
 //   infoedit(username, name, surname, pesel,tel){

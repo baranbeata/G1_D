@@ -27,8 +27,9 @@ public class InfoEditController {
 
     @GetMapping("/user")
     public @NotNull
-    ResponseEntity<Iterable<InfoEdit>> getInfo(@RequestParam(required = false) Iterable<InfoEdit> info) {
-        return new ResponseEntity<>(infoEditRepository.findAll(), HttpStatus.OK);
+    ResponseEntity<Optional<InfoEdit>> getInfo(@RequestParam String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        return new ResponseEntity<>(infoEditRepository.findById(user.get().getId()), HttpStatus.OK);
     }
 
     @PostMapping("/user/infoEdit-form")
@@ -41,12 +42,13 @@ public class InfoEditController {
         }
         //System.out.format("user %s ", userRepository.findByUsername(infoEditRequest.getUsername()));
 
-        Optional<User> currentUser= userRepository.findById(infoEditRequest.getUserId());
-        InfoEdit infoEdit = infoEditRepository.findByUserId(currentUser.get().getUsername());
+        Optional<User> currentUser= userRepository.findByUsername(infoEditRequest.getUsername());
+        InfoEdit infoEdit = new InfoEdit(infoEditRequest.getName(), infoEditRequest.getSurname(), infoEditRequest.getPesel(), infoEditRequest.getTel(), currentUser.get());
+        /*InfoEdit infoEdit = infoEditRepository.findByUserId(currentUser.get().getId());
         infoEdit.setName(infoEditRequest.getName());
         infoEdit.setSurname(infoEditRequest.getSurname());
         infoEdit.setPesel(infoEditRequest.getPesel());
-        infoEdit.setTel(infoEditRequest.getTel());
+        infoEdit.setTel(infoEditRequest.getTel());*/
 
         infoEditRepository.save(infoEdit);
 

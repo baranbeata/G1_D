@@ -30,15 +30,16 @@ public class InfoEdit {
     @NonNull
     private String tel;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    //@OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
     public InfoEdit() {
-
     }
 
-    public InfoEdit(String name, String surname, String pesel, String tel) {
+    public InfoEdit(String name, String surname, String pesel, String tel, User user) {
+        this.user = user;
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
@@ -51,6 +52,13 @@ public class InfoEdit {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {return name;}
