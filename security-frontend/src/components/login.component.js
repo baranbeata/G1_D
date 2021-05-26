@@ -8,6 +8,8 @@ import CheckButton from "react-validation/build/button";
 import { connect } from "react-redux";
 import { login } from "../actions/auth";
 
+import {Link} from 'react-router-dom';
+
 const required = (value) => {
   if (!value) {
     return (
@@ -113,7 +115,14 @@ class Login extends Component {
                 validations={[required]}
               />
             </div>
-
+              <div>
+              <Link 
+                                    to={{
+                                        pathname: `/forgot-password`,
+                                    }}
+                                >
+                                    <p style={{color:'DodgerBlue'}}>Forgot password?</p>
+                                </Link></div>
             <div className="form-group">
               <button
                 className="btn btn-primary btn-block"

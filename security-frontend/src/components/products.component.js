@@ -2,40 +2,59 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import {Link, Redirect} from 'react-router-dom';
 import ProductService from "../services/product.service";
+import axios from "axios"
+
+
 import TextField from '@material-ui/core/TextField';
 import { Input } from '@material-ui/core';
 
 class Products extends Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
-          products: []
+            products: []
         };
-      }
-    
-      componentDidMount() {
+    }
+
+    handleProductDelete = id => {
+        console.log(id);
+      const url = `http://localhost:8080/products/${id}`;
+      axios.delete(url)
+      .then(response => {
+        this.setState(previousState => {
+              return {
+                  products: previousState.products.filter(p => p.id !== id)
+              };
+          });
+    })
+    .catch(response => {
+        console.log(response);
+    });
+    }
+
+    componentDidMount() {
         ProductService.getProducts().then(
-          response => {
-            this.setState({
-              products: response.data
-            });
-          },
-          error => {
-            this.setState({
-              products:
-                (error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
-                error.message ||
-                error.toString()
-            });
-          }
+            response => {
+                this.setState({
+                    products: response.data
+                });
+            },
+            /* error => {
+                 this.setState({
+                     shops:
+                         (error.response &&
+                             error.response.data &&
+                             error.response.data.message) ||
+                         error.message ||
+                         error.toString()
+                 });
+             }*/
         );
-      }
+    }
 
     render() {
-        const { user: currentUser, products } = this.props;
+        const { user: currentUser,  products } = this.props;
 
         if (!currentUser) {
             return <Redirect to="/login" />;
@@ -51,30 +70,35 @@ class Products extends Component {
 
                 <img src="/img/search.png"></img>
                 <Input disableUnderline="true" placeholder="Search" inputProps={{ 'aria-label': 'description' }} style={{ marginBottom: "20px", underlineColor: "black"}} />
-             
+
                 <table className="table">
                     <tbody>
-                        <tr>
-                            <td>Name:</td>
-                            <td>Size:</td>
-                            <td>Price:</td>
-                            
-                        </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td>Address:</td>
+                        <td>City:</td>
+                        <td>Delete</td>
+                    </tr>
 
-                        {this.state.products &&
-                        this.state.products.map((product, index) =>                       
-                        //<Link to={`products/${product.id}`} className="nav-link">
-                          //<div className="styled" >
-                          <tr>
-                              <td>{product.name}</td>
-                              <td>{product.size}</td>
-                              <td>{product.price}</td>          
-                              <td><button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button></td>                 
-                          </tr>
-                          //</div>
-                        //</Link>
-                        )}
-                        
+                    {this.state. products &&
+                    this.state. products.map(( product, index) =>
+                            <tr>
+                                <td>{ product.name}</td>
+                                <td>{ product.type}</td>
+
+                                <Link
+                                    to={{
+                                        pathname: `/products/${product.id}`,
+                                        state: {  products:  product }
+                                    }}
+                                >
+                                    <td><button className="btn btn-info btn-sm">Details</button></td>
+                                </Link>
+                                <td><button className="btn btn-outline-danger ml-4" value={product.id} onClick={() => this.handleProductDelete(product.id)}>Delete</button></td>
+
+                            </tr>
+                    )}
+
                     </tbody>
                 </table>
             </div>
@@ -90,7 +114,7 @@ function mapStateToProps(state) {
     return {
         user,
         message,
-     //   products
+        //   products
     };
 }
 
@@ -104,7 +128,7 @@ export default connect(mapStateToProps)(Products);
     <tr>
       <td>{product.name}</td>
       <td>{product.size}</td>
-      <td>{product.price}</td>                            
+
     </tr>
   );
 })}
