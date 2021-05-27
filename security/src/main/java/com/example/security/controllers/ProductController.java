@@ -5,10 +5,13 @@ import com.example.security.models.Category;
 import com.example.security.models.ECategory;
 import com.example.security.models.Type;
 import com.example.security.models.EType;
+import com.example.security.models.Size;
+import com.example.security.models.ESize;
 import com.example.security.payload.request.AddProductRequest;
 import com.example.security.payload.response.MessageResponse;
 import com.example.security.models.Shop;
 import com.example.security.repository.ProductRepository;
+import com.example.security.repository.SizeRepository;
 import com.example.security.repository.CategoryRepository;
 import com.example.security.repository.TypeRepository;
 import com.example.security.security.jwt.JwtUtils;
@@ -30,6 +33,9 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    SizeRepository sizeRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -57,9 +63,55 @@ public class ProductController {
     @PostMapping("/products/add-product")
     public @NotNull
     ResponseEntity<?> addProduct(@Valid @RequestBody AddProductRequest addProductRequest) {
-        Product product = new Product(addProductRequest.getName(),
-                addProductRequest.getSize(),
-                addProductRequest.getPrice());
+        Product product = new Product(addProductRequest.getName(), addProductRequest.getPrice());
+
+        Set<String> strSizes = addProductRequest.getSize();
+        Set<Size> sizes = new HashSet<>();
+
+        if (strSizes == null) {
+            Size overallSize = sizeRepository.findByName(ESize.ONE_SIZE)
+                    .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+            sizes.add(overallSize);
+        } else {
+            strSizes.forEach(size -> {
+                switch (size) {
+                    case "xs":
+                        Size xs = sizeRepository.findByName(ESize.SIZE_XS)
+                                .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+                        sizes.add(xs);
+
+                        break;
+                    case "s":
+                        Size s = sizeRepository.findByName(ESize.SIZE_S)
+                                .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+                        sizes.add(s);
+
+                        break;
+                    case "m":
+                        Size m = sizeRepository.findByName(ESize.SIZE_M)
+                                .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+                        sizes.add(m);
+
+                        break;
+                    case "l":
+                        Size l = sizeRepository.findByName(ESize.SIZE_L)
+                                .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+                        sizes.add(l);
+
+                        break;
+                    case "xl":
+                        Size xl = sizeRepository.findByName(ESize.SIZE_XL)
+                                .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+                        sizes.add(xl);
+                        break;
+                    default:
+                        Size oneSize = sizeRepository.findByName(ESize.ONE_SIZE)
+                                .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+                        sizes.add(oneSize);
+                }
+            });
+        }
+
 
         Set<String> strCategories = addProductRequest.getCategory();
         Set<Category> categories = new HashSet<>();
@@ -123,8 +175,8 @@ public class ProductController {
                     .orElseThrow(() -> new RuntimeException("Error: Type is not found."));
             types.add(overallType);
         } else {
-            strCategories.forEach(category -> {
-                switch (category) {
+            strTypes.forEach(type -> {
+                switch (type) {
                     case "men":
                         Type menType = typeRepository.findByName(EType.TYPE_MEN)
                                 .orElseThrow(() -> new RuntimeException("Error: Type is not found."));

@@ -9,10 +9,9 @@ public class AddProductRequest {
     private String name;
 
     @NonNull
-    private String size;
-
-    @NonNull
     private Float price;
+
+    private Set<String> size;
 
     private Set<String> category;
 
@@ -26,11 +25,11 @@ public class AddProductRequest {
         this.name = name;
     }
 
-    public String getSize() {
+    public Set<String> getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Set<String> size) {
         this.size = size;
     }
 
