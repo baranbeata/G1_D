@@ -31,16 +31,14 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className="container">
-        <header className="jumbotron">
+      <div className="row">
+        <header>
           <h3>{this.state.content}</h3>
-          <section class="categories">
-              <div class="container-fluid">
-                <div class="row">
+          <section class="product spad">
+            <a href="/home">
+                <img src="img/main.png"></img>
+            </a>
 
-                <img src="img/categories/category-6.jpg"></img>
-        </div>
-    </div>
 </section>
         </header>
       </div>

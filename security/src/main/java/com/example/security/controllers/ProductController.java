@@ -7,10 +7,12 @@ import com.example.security.models.Type;
 import com.example.security.models.EType;
 import com.example.security.payload.request.AddProductRequest;
 import com.example.security.payload.response.MessageResponse;
+import com.example.security.models.Shop;
 import com.example.security.repository.ProductRepository;
 import com.example.security.repository.CategoryRepository;
 import com.example.security.repository.TypeRepository;
 import com.example.security.security.jwt.JwtUtils;
+import com.example.security.repository.ShopRepository;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,10 +47,11 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public @NotNull
-    ResponseEntity<Optional<Product>> getSingleProduct(@PathVariable long id) {
-            return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
-            
+    @CrossOrigin(origins="http://localhost:8081")
+    public @NotNull ResponseEntity<Optional<Product>> getSingleProduct(@PathVariable long id) {
+
+        return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
+
     }
 
     @PostMapping("/products/add-product")
@@ -156,6 +159,19 @@ public class ProductController {
 
         productRepository.save(product);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @DeleteMapping("/products/{id}")
+    @CrossOrigin
+    public @NotNull
+    ResponseEntity<Long> deleteProduct(@PathVariable long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isEmpty())
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        productRepository.deleteById(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
 }

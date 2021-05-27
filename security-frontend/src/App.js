@@ -17,7 +17,7 @@ import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
 import Products from "./components/products.component"
-import ProductDetails from "./components/productdetails.component"
+import  ProductDetails from "./components/productdetails.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -25,6 +25,8 @@ import { clearMessage } from "./actions/message";
 import { history } from './helpers/history';
 import ForgotPass from "./components/forgotpass.component";
 import ResetPassword from "./components/resetpassword.component";
+import Shops from "./components/shops.component";
+import ShopDetails from "./components/shopdetails.component"
 
 
 class App extends Component {
@@ -98,7 +100,7 @@ class App extends Component {
 
               {showSupplierBoard && (
                 <li className="nav-item">
-                  <Link to={"/manager"} className="nav-link">
+                  <Link to={"/supplier"} className="nav-link">
                     Supplier Board
                   </Link>
                 </li>
@@ -136,6 +138,15 @@ class App extends Component {
                   </Link>
                 </li>
               )}
+
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/shops"} className="nav-link">
+                      <a>Shops</a>
+                    </Link>
+                  </li>
+              )}
+
               </ul>
               </nav>
             </div>
@@ -145,11 +156,11 @@ class App extends Component {
                 <div class="header__right">
                     <div class="header__right__auth">
 
-                      <Link to={"/profile"}>
+                      <Link to={"/profile"} style={{textDecoration: 'none', color: 'black'}}>
                         <a>{currentUser.username}'s profile</a>
                       </Link>
 
-                      <a href="/login" onClick={this.logOut}>
+                      <a href="/login" onClick={this.logOut} style={{textDecoration: 'none', color: 'black'}}>
                         LogOut
                       </a>
                     </div>
@@ -159,7 +170,7 @@ class App extends Component {
               <div class="col-lg-3">
                 <div class="header__right">
                   <div class="header__right__auth">
-                    <Link to={"/login"} className="nav-link">
+                    <Link to={"/login"} className="nav-link" style={{textDecoration: 'none', color: 'black'}}>
                       Login
                     </Link>
                   </div>
@@ -182,13 +193,17 @@ class App extends Component {
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/supplier" component={BoardSupplier} />
               <Route path="/forgot-password" component={ForgotPass} />
-              <Route path="/products" component={Products} />
-              <Route path="/products/:productId" component={ProductDetails}/>
+              <Route exact path="/products" component={Products} />
+              <Route exact path="/products/:id" component={ProductDetails}/>
               <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/profile/change_password" component={Change_password} />
+              <Route exact path="/shops" component={Shops} />
+              <Route exact path="/shops/:id" component={ShopDetails}/>
+            
             </Switch>
           </div>
         </div>
+
         <Footer/>
       </Router>
     );

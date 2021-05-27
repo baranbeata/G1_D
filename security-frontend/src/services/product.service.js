@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/';
 
+
 class ProductService {
 
   getProducts() {
@@ -9,7 +10,8 @@ class ProductService {
   }
 
   getProductDetails() {
-    return axios.get(API_URL + 'products/:productId');
+    return axios.get(API_URL + 'products/{id}');
+
   }
 
 }

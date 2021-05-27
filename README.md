@@ -2,15 +2,22 @@
 This project is a system for managing a chain of clothing stores.
 
 ## Technologies
-* Java
+* Java 16
 * Spring
+* Maven
 * ReactJS
+* Redux
+* PostgreSQL
 
 ## Installation and running
 #### Backend:
 You can install Intelij Idea to run this project or simply use this command in the security directory:
 ```
 mvn -B package --file pom.xml
+```
+If you would like to run tests, you can add cofiguration in Intelij or use this command in the security directory:
+```
+mvn -B test --file pom.xml
 ```
 Backend side of the application runs on 8080 port (http://localhost:8080).
 #### Frontend:
