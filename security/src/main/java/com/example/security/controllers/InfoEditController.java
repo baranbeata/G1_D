@@ -40,15 +40,9 @@ public class InfoEditController {
                     .badRequest()
                     .body(new MessageResponse("Error: User not found!"));
         }
-        //System.out.format("user %s ", userRepository.findByUsername(infoEditRequest.getUsername()));
 
         Optional<User> currentUser= userRepository.findByUsername(infoEditRequest.getUsername());
         InfoEdit infoEdit = new InfoEdit(infoEditRequest.getName(), infoEditRequest.getSurname(), infoEditRequest.getPesel(), infoEditRequest.getTel(), currentUser.get());
-        /*InfoEdit infoEdit = infoEditRepository.findByUserId(currentUser.get().getId());
-        infoEdit.setName(infoEditRequest.getName());
-        infoEdit.setSurname(infoEditRequest.getSurname());
-        infoEdit.setPesel(infoEditRequest.getPesel());
-        infoEdit.setTel(infoEditRequest.getTel());*/
 
         infoEditRepository.save(infoEdit);
 

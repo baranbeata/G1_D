@@ -74,7 +74,7 @@ class User extends Component {
                  
                 <p>
                   <table>
-                   <td> <Link to="/user/infoEdit-form" className="btn btn-primary">Edit information</Link> </td>
+                   <td> <Link to="/user/infoEdit-form" className="btn btn-lg btn-outline-danger ml-4">Edit information</Link> </td>
                     </table>
                 </p>
           </div>
