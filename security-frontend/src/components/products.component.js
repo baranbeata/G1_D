@@ -70,8 +70,6 @@ class Products extends Component {
                     <tbody>
                     <tr>
                         <td>Name:</td>
-                        <td>Address:</td>
-                        <td>City:</td>
                         <td>Delete</td>
                     </tr>
 
