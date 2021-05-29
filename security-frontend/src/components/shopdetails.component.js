@@ -6,11 +6,11 @@ const ShopDetails = _ => {
 
     return (
         <div className="container">
-            <header className="jumbotron">
-                <h3>
-                    <strong>Shop details page</strong>
-                </h3>
-            </header>
+                <header style={{ paddingTop: "50px", marginBottom: "50px"}}>
+                    <h2 style={{ fontFamily: "Corbel Light", color: 'rgb(207,16,26)'}}>
+                        SHOP DETAILS
+                    </h2>
+                </header>
 
             <p>
                 <strong>Name:</strong> {state.shops.name}

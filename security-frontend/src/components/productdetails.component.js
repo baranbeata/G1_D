@@ -41,10 +41,10 @@ class ProductDetails extends Component {
         return (
 
             <div className="container">
-                <header className="jumbotron">
-                    <h3>
-                        <strong>Product details page</strong>
-                    </h3>
+                  <header style={{ paddingTop: "50px"}}>
+                    <h2 style={{ fontFamily: "Corbel Light", color: 'rgb(207,16,26)'}}>
+                        PRODUCT DETAILS
+                    </h2>
                 </header>
 
 
@@ -88,6 +88,7 @@ class ProductDetails extends Component {
                 <div>
                     <img src={process.env.PUBLIC_URL + "/img/product/product-1.jpg"} alt="image"/>
                 </div>
+
             </div>
         );
     };

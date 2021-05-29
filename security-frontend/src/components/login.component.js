@@ -84,12 +84,7 @@ class Login extends Component {
 
     return (
       <div className="col-md-12">
-        <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
+        <div className="card card-container" style={{ backgroundColor: 'white'}}>
 
           <Form
             onSubmit={this.handleLogin}
@@ -131,6 +126,7 @@ class Login extends Component {
             <div className="form-group">
               <button
                 className="btn btn-primary btn-block"
+                style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}
                 disabled={this.state.loading}
               >
                 {this.state.loading && (

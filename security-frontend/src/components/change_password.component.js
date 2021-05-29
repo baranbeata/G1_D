@@ -4,7 +4,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {changePassword} from "../actions/auth";
 import CheckButton from "react-validation/build/button";
-
+import Button from '@material-ui/core/Button';
 
 const required = (value) => {
     if (!value) {
@@ -124,7 +124,7 @@ class change_Password extends Component {
 
         return (
             <div className="col-md-12">
-                <div className="card card-container">
+                <div className="card card-container" style={{ backgroundColor: 'white'}}>
 
                     <Form
                         onSubmit={this.handleChangedPassword}
@@ -169,7 +169,7 @@ class change_Password extends Component {
                         </div>
 
                         <div className="form-group">
-                            <button>
+                            <button className="btn btn-primary btn-block" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>
                                 Change
                             </button>
                         </div>
