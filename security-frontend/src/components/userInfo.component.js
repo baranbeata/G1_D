@@ -1,8 +1,10 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { Router, Switch, Route, Link, Redirect} from "react-router-dom";
-import InfoService from "../services/info.service";
+//import InfoService from "../services/info.service";
 import AuthService from "../services/auth.service";
+
+
 
 class User extends Component {
 
@@ -15,24 +17,23 @@ class User extends Component {
   }
 
   componentDidMount() {
-    this.props
-                .dispatch(AuthService.getInfo(localStorage.getItem("username")).then(
+    AuthService.getInfo(localStorage.getItem("username")).then(
       response => {
         this.setState({
           infos: response.data
         });
       },
-      error => {
-        this.setState({
-          infos:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
-      }
-                )
+      // error => {
+      //   this.setState({
+      //     infos:
+      //       (error.response &&
+      //         error.response.data &&
+      //         error.response.data.message) ||
+      //       error.message ||
+      //       error.toString()
+      //   });
+      // }
+      //           )
     );
                 
   }
