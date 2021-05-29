@@ -67,6 +67,14 @@ class Products extends Component {
                         PRODUCTS
                     </h2>
                 </header>
+                <Link
+                    to={{
+                        pathname: `/add-product`,
+                        //state: {  products:  product }
+                    }}
+                >
+                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Add product</button>
+                </Link>
 
                 <img src="/img/search.png"></img>
                 <Input disableUnderline="true" placeholder="Search" inputProps={{ 'aria-label': 'description' }} style={{ marginBottom: "20px", underlineColor: "black"}} />
@@ -75,7 +83,7 @@ class Products extends Component {
                     <tbody>
                     <tr>
                         <td>Name:</td>
-                        <td>Type:</td>
+                        <td>Price:</td>
                         <td>Details:</td>
                         <td>Delete:</td>
                     </tr>
@@ -84,7 +92,7 @@ class Products extends Component {
                     this.state. products.map(( product, index) =>
                             <tr>
                                 <td>{ product.name}</td>
-                                <td>{ product.type}</td>
+                                <td>{ product.price}</td>
                                 <td>
                                 <Link
                                     to={{

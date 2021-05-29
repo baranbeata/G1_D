@@ -60,13 +60,15 @@ public class ProductController {
 
     }
 
-    @PostMapping("/products/add-product")
+    @PostMapping("/add-product")
     public @NotNull
     ResponseEntity<?> addProduct(@Valid @RequestBody AddProductRequest addProductRequest) {
         Product product = new Product(addProductRequest.getName(), addProductRequest.getPrice());
 
         Set<String> strSizes = addProductRequest.getSize();
         Set<Size> sizes = new HashSet<>();
+
+        System.out.println("Ania");
 
         if (strSizes == null) {
             Size overallSize = sizeRepository.findByName(ESize.ONE_SIZE)
@@ -210,7 +212,7 @@ public class ProductController {
         }
 
         productRepository.save(product);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("Product added successfully!"));
     }
 
     @DeleteMapping("/products/{id}")
