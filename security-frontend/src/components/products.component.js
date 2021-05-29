@@ -75,9 +75,11 @@ class Products extends Component {
                     <tbody>
                     <tr>
                         <td>Name:</td>
+
                         <td>Type:</td>
                         <td>Details:</td>
                         <td>Delete:</td>
+
                     </tr>
 
                     {this.state. products &&
