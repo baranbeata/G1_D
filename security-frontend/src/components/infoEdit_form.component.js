@@ -5,6 +5,7 @@ import Input from "react-validation/build/input";
 import {InfoService} from "../services/info.service";
 import CheckButton from "react-validation/build/button";
 import {infoedit} from "../actions/auth";
+import Button from '@material-ui/core/Button';
 
 
 const required = (value) => {
@@ -116,7 +117,7 @@ class infoEdit_form extends Component {
 
         return (
             <div className="col-md-12">
-                <div className="card card-container">
+                <div className="card card-container" style={{ backgroundColor: 'white'}}>
 
                     <Form
                         onSubmit={this.handleinfoedit}
@@ -173,7 +174,7 @@ class infoEdit_form extends Component {
                         </div>
 
                         <div className="form-group">
-                            <button>
+                        <button className="btn btn-primary btn-block" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>
                                 EDIT
                             </button>
                         </div>

@@ -84,22 +84,22 @@ class Products extends Component {
 
                     {this.state. products &&
                     this.state. products.map(( product, index) =>
-                        <div className="styled" >
                             <tr>
                                 <td>{ product.name}</td>
                                 <td>{ product.type}</td>
-
+                                <td>
                                 <Link
                                     to={{
                                         pathname: `/products/${product.id}`,
                                         state: {  products:  product }
                                     }}
                                 >
-                                    <td><button className="btn btn-info btn-sm">Details</button></td>
+                                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button>
                                 </Link>
+                                </td>
+                                <td><button className="btn btn-outline-danger ml-4" value={product.id} onClick={() => this.handleProductDelete(product.id)}>Delete</button></td>
 
                             </tr>
-                        </div>
                     )}
 
                     </tbody>
