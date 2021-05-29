@@ -1,5 +1,6 @@
 package com.example.security.models;
 import com.example.security.repository.UserRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -31,6 +32,7 @@ public class InfoEdit {
     private String tel;
 
     //@OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;

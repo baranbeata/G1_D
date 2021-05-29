@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/shops").permitAll()
                 .antMatchers("/shops/**").permitAll()
                 .antMatchers("/reset-password*").permitAll()
+                .antMatchers("/employees").permitAll()
                 .antMatchers("/api/test/**").permitAll()//.anyRequest().authenticated();
                 .anyRequest().authenticated();
 
