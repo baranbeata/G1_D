@@ -8,6 +8,8 @@ import CheckButton from "react-validation/build/button";
 import { connect } from "react-redux";
 import { login } from "../actions/auth";
 
+import {Link} from 'react-router-dom';
+
 const required = (value) => {
   if (!value) {
     return (
@@ -82,12 +84,7 @@ class Login extends Component {
 
     return (
       <div className="col-md-12">
-        <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
+        <div className="card card-container" style={{ backgroundColor: 'white'}}>
 
           <Form
             onSubmit={this.handleLogin}
@@ -118,10 +115,18 @@ class Login extends Component {
                 validations={[required]}
               />
             </div>
-
+              <div>
+              <Link 
+                                    to={{
+                                        pathname: `/forgot-password`,
+                                    }}
+                                >
+                                    <p style={{color:'DodgerBlue'}}>Forgot password?</p>
+                                </Link></div>
             <div className="form-group">
               <button
                 className="btn btn-primary btn-block"
+                style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}
                 disabled={this.state.loading}
               >
                 {this.state.loading && (

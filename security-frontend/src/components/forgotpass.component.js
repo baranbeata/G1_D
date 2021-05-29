@@ -84,8 +84,8 @@ class ForgotPass extends Component {
               this.form = c;
             }}
           >
-              <div className="form-group">
-                  <label htmlFor="email">Email</label>
+              <div className="form-group" style={{width: "300px", marginTop: "100px"}}>
+                  <label htmlFor="email" >Enter your email address</label>
                   <Input
                     type="text"
                     className="form-control"
@@ -97,7 +97,7 @@ class ForgotPass extends Component {
                 </div> 
                 <div className="form-group">
               <button
-                className="btn btn-primary btn-block"
+                className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}
                 disabled={this.state.loading}
               >
                 {this.state.loading && (
