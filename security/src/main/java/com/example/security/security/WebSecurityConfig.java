@@ -21,15 +21,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-         //securedEnabled = true,
-         //jsr250Enabled = true,
-        prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -70,7 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/forgot-password/").permitAll()
                 .antMatchers("/confirm-reset*").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/products").permitAll()
+                .antMatchers("/products/").permitAll()
+                .antMatchers("/products/*").permitAll()
                 .antMatchers("/products/**").permitAll()
                 .antMatchers("/shops").permitAll()
                 .antMatchers("/shops/**").permitAll()

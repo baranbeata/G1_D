@@ -1,9 +1,8 @@
 package com.example.security.controllers;
 
 import com.example.security.models.Product;
-import com.example.security.models.Shop;
+import com.example.security.payload.response.MessageResponse;
 import com.example.security.repository.ProductRepository;
-import com.example.security.repository.ShopRepository;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    @CrossOrigin(origins="http://localhost:8081")
+    @CrossOrigin
     public @NotNull
     ResponseEntity<Long> deleteProduct(@PathVariable long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -44,6 +43,21 @@ public class ProductController {
         }
         productRepository.deleteById(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @PostMapping("/products/{id}")
+    @CrossOrigin(origins="http://localhost:8081")
+    public @NotNull ResponseEntity<?> changeValue(@PathVariable long id,
+                                                  @RequestParam(required = false) String value,
+                                                  @RequestParam(required = false) String column) {
+        Product currentproduct = this.productRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Error: Product with given id not found."));
+
+        currentproduct.setDescription(value);
+        productRepository.save(currentproduct);
+
+        return ResponseEntity.ok(new MessageResponse("Value was changed successfully!"));
+
     }
 
 }

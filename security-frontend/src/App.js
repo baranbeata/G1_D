@@ -143,11 +143,11 @@ class App extends Component {
                 <div class="header__right">
                     <div class="header__right__auth">
 
-                      <Link to={"/profile"}>
+                      <Link to={"/profile"} style={{textDecoration: 'none', color: 'black'}}>
                         <a>{currentUser.username}'s profile</a>
                       </Link>
 
-                      <a href="/login" onClick={this.logOut}>
+                      <a href="/login" onClick={this.logOut} style={{textDecoration: 'none', color: 'black'}}>
                         LogOut
                       </a>
                     </div>
@@ -157,7 +157,7 @@ class App extends Component {
               <div class="col-lg-3">
                 <div class="header__right">
                   <div class="header__right__auth">
-                    <Link to={"/login"} className="nav-link">
+                    <Link to={"/login"} className="nav-link" style={{textDecoration: 'none', color: 'black'}}>
                       Login
                     </Link>
                   </div>
@@ -190,6 +190,7 @@ class App extends Component {
             </Switch>
           </div>
         </div>
+
         <Footer/>
       </Router>
     );

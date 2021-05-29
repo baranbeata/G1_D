@@ -42,10 +42,10 @@ class Shops extends Component {
 
         return (
             <div className="container">
-                <header className="jumbotron">
-                    <h3>
-                        <strong>Our shops</strong>
-                    </h3>
+                <header style={{ paddingTop: "50px"}}>
+                    <h2 style={{ fontFamily: "Corbel Light", color: 'rgb(207,16,26)'}}>
+                        SHOPS
+                    </h2>
                 </header>
 
                 <table className="table">
@@ -59,7 +59,7 @@ class Shops extends Component {
 
                     {this.state.shops &&
                     this.state.shops.map((shop, index) =>
-                            <div className="styled" >
+                            //<div className="styled" >
                                 <tr>
                                     <td>{shop.name}</td>
                                     <td>{shop.address}</td>
@@ -71,11 +71,11 @@ class Shops extends Component {
                                                 state: { shops: shop }
                                             }}
                                         >
-                                    <td><button className="btn btn-info btn-sm">Details</button></td>
+                                    <td><button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button></td>
                                     </Link>
 
                                 </tr>
-                            </div>
+                            //</div>
                     )}
 
                     </tbody>
