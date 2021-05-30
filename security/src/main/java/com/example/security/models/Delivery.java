@@ -31,7 +31,7 @@ public class Delivery {
     @Nullable
     private Integer amount;//ile kosztuje
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     // this field will not be serialized to/from JSON
     @JsonIgnore
