@@ -28,6 +28,7 @@ import ForgotPass from "./components/forgotpass.component";
 import ResetPassword from "./components/resetpassword.component";
 import Shops from "./components/shops.component";
 import ShopDetails from "./components/shopdetails.component"
+import Deliveries from "./components/deliveries.component";
 
 
 class App extends Component {
@@ -148,6 +149,14 @@ class App extends Component {
                   </li>
               )}
 
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/deliveries"} className="nav-link">
+                      <a>Deliveries</a>
+                    </Link>
+                  </li>
+              )}
+
               </ul>
               </nav>
             </div>
@@ -201,7 +210,7 @@ class App extends Component {
               <Route exact path="/profile/change_password" component={Change_password} />
               <Route exact path="/shops" component={Shops} />
               <Route exact path="/shops/:id" component={ShopDetails}/>
-            
+              <Route exact path="/deliveries" component={Deliveries} />
             </Switch>
           </div>
         </div>

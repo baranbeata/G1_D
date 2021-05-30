@@ -1,5 +1,8 @@
 package com.example.security.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.Hibernate;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import java.sql.Date;
@@ -7,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(	name = "deliveries")
-
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +33,8 @@ public class Delivery {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    // this field will not be serialized to/from JSON
+    @JsonIgnore
     private User supplier;
 
     public Delivery() {
