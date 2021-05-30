@@ -48,5 +48,9 @@ class AuthService {
   forgotpass(email) {
     return axios.post(API_URL + "forgot-password", {email});
   }
+
+  getManagerBoard(username) {
+    return axios.get(API_URL + 'manager', {params: { username: username}});
+  }
 }
 export default new AuthService();
