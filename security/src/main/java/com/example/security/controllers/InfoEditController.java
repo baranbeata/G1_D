@@ -39,11 +39,11 @@ public class InfoEditController {
         return new ResponseEntity<>(infoEditRepository.findById(user.get().getId()), HttpStatus.OK);
     }
 
-    @GetMapping("/employees")
+    @GetMapping("/manager")
     @ResponseBody
     public @NotNull
-    ResponseEntity<Iterable<InfoEdit>> getEmployees(@RequestParam long managerId) {
-        Optional<User> manager = userRepository.findById(managerId);
+    ResponseEntity<Iterable<InfoEdit>> getEmployees(@RequestParam String username) {
+        Optional<User> manager = userRepository.findByUsername(username);
         Optional<Shop> shop = shopRepository.findById(manager.get().getShop().getId());
         List<User> employees = shop.get().getUsers();
         List<Long> ids = new ArrayList<>();
