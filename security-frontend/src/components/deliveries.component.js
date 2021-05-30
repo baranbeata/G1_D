@@ -63,7 +63,7 @@ class Deliveries extends Component {
         return (
             <div className="container">
                 <header style={{ paddingTop: "50px"}}>
-                    <h2 style={{ fontFamily: "Corbel Light", color: 'rgb(207,16,26)'}}>
+                    <h2 style={{ fontFamily: "Corbel Light, Courier New, sans-serif", color: 'rgb(207,16,26)'}}>
                         DELIVERIES
                     </h2>
                 </header>
