@@ -11,20 +11,25 @@ import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
+import BoardSupplier from "./components/board-supplier.component";
 import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
 import Products from "./components/products.component"
 import ProductDetails from "./components/productdetails.component"
 import infoEdit_form from "./components/infoEdit_form.component";
+import AddProduct from "./components/addproduct.component"
+import ProductDetails from "./components/productdetails.component"
+
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 import User from "./components/userInfo.component";
 import { history } from './helpers/history';
 import ForgotPass from "./components/forgotpass.component";
 import ResetPassword from "./components/resetpassword.component";
-import Shops from "./components/shopList.component";
+import Shops from "./components/shops.component";
 import ShopDetails from "./components/shopdetails.component"
+import Deliveries from "./components/deliveries.component";
 
 
 class App extends Component {
@@ -51,6 +56,8 @@ class App extends Component {
         currentUser: user,
         showManagerBoard: user.roles.includes("ROLE_MANAGER"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+        showEmployeeBoard: user.roles.includes("ROLE_EMPLOYEE"),
+        showSupplierBoard: user.roles.includes("ROLE_SUPPLIER"),
       });
     }
   }
@@ -60,7 +67,7 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showManagerBoard, showAdminBoard } = this.state;
+    const { currentUser, showManagerBoard, showAdminBoard, showEmployeeBoard, showSupplierBoard } = this.state;
 
     return (
       <Router history={history}>
@@ -94,6 +101,14 @@ class App extends Component {
                 </li>
               )}
 
+              {showSupplierBoard && (
+                <li className="nav-item">
+                  <Link to={"/supplier"} className="nav-link">
+                    Supplier Board
+                  </Link>
+                </li>
+              )}
+
               {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
@@ -110,10 +125,10 @@ class App extends Component {
                 </li>
               )}
 
-              {currentUser && (
+              {showEmployeeBoard && (
                 <li className="nav-item">
-                  <Link to={"/user"} className="nav-link">
-                  <a>User</a>
+                  <Link to={"/employee"} className="nav-link">
+                    <a>Employee</a>
                   </Link>
                 </li>
               )}
@@ -134,6 +149,15 @@ class App extends Component {
                   </Link>
                 </li>
               )}
+
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/deliveries"} className="nav-link">
+                      <a>Deliveries</a>
+                    </Link>
+                  </li>
+              )}
+
               </ul>
               </nav>
             </div>
@@ -175,17 +199,20 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/profile" component={Profile} />
-              <Route exact path="/user" component={User} />
+              <Route path="/employee" component={BoardEmployee} />
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
+              <Route path="/supplier" component={BoardSupplier} />
               <Route path="/forgot-password" component={ForgotPass} />
               <Route exact path="/products" component={Products} />
+              <Route exact path="/add-product" component={AddProduct} />
               <Route exact path="/products/:id" component={ProductDetails}/>
               <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/user/infoEdit-form" component={infoEdit_form} />
               <Route exact path="/profile/change_password" component={Change_password} />
               <Route exact path="/shops" component={Shops} />
               <Route exact path="/shops/:id" component={ShopDetails}/>
+              <Route exact path="/deliveries" component={Deliveries} />
 
             </Switch>
           </div>

@@ -1,6 +1,3 @@
-// similar to user board
-// not done
-
 import React, { Component } from "react";
 
 import UserService from "../services/user.service";

@@ -6,10 +6,13 @@ import {
     LOGOUT,
     SET_MESSAGE,
     CHANGED_SUCCESS,
+    //ADD_SUCCESS,
+
 } from "./types";
 
   import AuthService from "../services/auth.service";
-  
+  import ProductService from "../services/product.service";
+
   export const register = (username, email, password, role) => (dispatch) => {
     return AuthService.register(username, email, password, role).then(
       (response) => {
@@ -131,7 +134,7 @@ export const changePassword=(username,newpassword,password)=>(dispatch)=>{
                   type: SET_MESSAGE,
                   payload: response.data.message,
               });
-  
+
               return Promise.resolve();
           },
           (error) => {
@@ -142,17 +145,17 @@ export const changePassword=(username,newpassword,password)=>(dispatch)=>{
                   ||
                   error.message ||
                   error.toString();
-  
+
               dispatch({
                   type: SET_MESSAGE,
                   payload: message,
               });
-  
+
               return Promise.reject();
           }
       );
 
-      
+
 };
 
 export const getInfo=(username)=>(dispatch)=>{
@@ -188,5 +191,41 @@ export const getInfo=(username)=>(dispatch)=>{
         }
     );*/
 
-    
+
 };
+
+/*
+export const add_product=(name, price, size, category, type)=>(dispatch)=>{
+
+  return  ProductService.addProduct(name, price, size, category, type).then(
+      (response) => {
+          dispatch({
+              type: ADD_SUCCESS,
+              //payload: { user: response},
+          });
+          dispatch({
+              type: SET_MESSAGE,
+              payload: response.data.message,
+          });
+
+          return Promise.resolve();
+      },
+      (error) => {
+          const message =
+              (error.response &&
+                  error.response.data &&
+                  error.response.data.message)
+              ||
+              error.message ||
+              error.toString();
+
+          dispatch({
+              type: SET_MESSAGE,
+              payload: message,
+          });
+
+          return Promise.reject();
+      }
+  );
+};
+*/
