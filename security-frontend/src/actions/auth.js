@@ -9,7 +9,7 @@ import {
 } from "./types";
 
   import AuthService from "../services/auth.service";
-  
+
   export const register = (username, email, password, role) => (dispatch) => {
     return AuthService.register(username, email, password, role).then(
       (response) => {
