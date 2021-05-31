@@ -1,6 +1,7 @@
 package com.example.security.controllers;
 
 import com.example.security.models.Product;
+import com.example.security.payload.request.AddProductRequest;
 import com.example.security.payload.response.MessageResponse;
 import com.example.security.models.Category;
 import com.example.security.models.ECategory;

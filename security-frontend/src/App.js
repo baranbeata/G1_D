@@ -19,7 +19,6 @@ import Products from "./components/products.component"
 import ProductDetails from "./components/productdetails.component"
 import infoEdit_form from "./components/infoEdit_form.component";
 import AddProduct from "./components/addproduct.component"
-import ProductDetails from "./components/productdetails.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -199,7 +198,6 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/profile" component={Profile} />
-              <Route path="/employee" component={BoardEmployee} />
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/supplier" component={BoardSupplier} />
