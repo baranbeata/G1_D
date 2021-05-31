@@ -112,7 +112,7 @@ public class AuthController {
                         roles.add(managerRole);
 
                         break;
-                    case "":
+                    case "supplier":
                         Role supplierRole = roleRepository.findByName(ERole.ROLE_SUPPLIER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(supplierRole);

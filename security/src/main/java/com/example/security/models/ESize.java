@@ -5,6 +5,7 @@ public enum ESize {
     SIZE_S,
     SIZE_M,
     SIZE_L,
-    SIZE_XL
+    SIZE_XL,
+    ONE_SIZE
 }
 
