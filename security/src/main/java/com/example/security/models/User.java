@@ -1,9 +1,6 @@
 package com.example.security.models;
-import com.example.security.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +21,6 @@ public class User {
     @NonNull
     private String email;
 
-
-
     @NonNull
     private String password;
 
@@ -39,6 +34,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToOne(mappedBy = "user")
+    private InfoEdit infoEdit;
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")

@@ -45,8 +45,31 @@ class AuthService {
 
   }
 
+  infoedit(username, name, surname, pesel,tel){
+    return axios.post(API_URL + "user/infoEdit-form",
+    {
+    username,
+    name,
+    surname,
+    pesel,
+    tel
+})
+
+  }
+
   forgotpass(email) {
     return axios.post(API_URL + "forgot-password", {email});
+  }
+
+  getManagerBoard(username) {
+    return axios.get(API_URL + 'manager', {params: { username: username}});
+  }
+
+  getInfo(username) {
+    return axios.get(API_URL + 'user',
+    {
+      username
+    })
   }
 }
 export default new AuthService();

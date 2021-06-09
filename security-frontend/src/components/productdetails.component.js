@@ -8,10 +8,13 @@ class ProductDetails extends Component {
     constructor(props) {
         super(props);
         this.updateInputValue= this.updateInputValue.bind(this);
+        this.updateInputValue2= this.updateInputValue2.bind(this);
 
         this.state = {
             description:'',
             is_des_clicked: false,
+            name:'',
+            is_name_clicked: false,
         };
 
 
@@ -20,6 +23,11 @@ class ProductDetails extends Component {
     updateInputValue(e) {
         this.setState({description: e.target.value,});
         this.setState({is_des_clicked:true})
+    }
+
+    updateInputValue2(e) {
+        this.setState({name: e.target.value,});
+        this.setState({is_name_clicked:true})
     }
 
 
@@ -34,9 +42,21 @@ class ProductDetails extends Component {
             .catch(err => console.warn(err));
     }
 
+    handleChangeValue2 = id => {
+        this.setState({ is_name_clicked: !this.state.is_name_clicked });
+        const url = `http://localhost:8080/products/${id}`;
+        axios.post(url, null, { params: {
+                value:this.state.name,
+                column:'name'
+            }})
+            .then(response => response.status)
+            .catch(err => console.warn(err));
+    }
+
     render() {
         const {  location } = this.props;
         const { is_des_clicked } = this.state;
+        const { is_name_clicked } = this.state;
 
         return (
 
@@ -49,12 +69,35 @@ class ProductDetails extends Component {
 
 
                 <div>
+                    <div className="form-group">
+                        <label htmlFor={location.state.products.name}><strong>Name</strong></label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            defaultValue={location.state.products.name || ''}
+                            //  value={this.state.description}
+                            name="productname"
+                            placeholder="Click to add product name"
+                            onChange={this. updateInputValue2}
+
+                        />
+
+                        <div className="form-group">
+                            { is_name_clicked
+                                ?   <button className="btn btn-outline-info ml-4" value={location.state.products.id} onClick={() => this.handleChangeValue2(location.state.products.id)}>Save</button>
+                                : null
+                            }
+                        </div>
+                    </div>
                     <p>
-                        <strong>Name:</strong> {location.state.products.name}
+                        <strong>Size:</strong>
+                        <ul>
+                            {location.state.products.sizes &&
+                            location.state.products.sizes.map((size, index) => <li key={index}>{size}</li>)}
+                        </ul>
+
                     </p>
-                    <p>
-                        <strong>Size:</strong> {location.state.products.size}
-                    </p>
+
                     <p>
                         <strong>Category:</strong> {location.state.products.categories.name}
                     </p>

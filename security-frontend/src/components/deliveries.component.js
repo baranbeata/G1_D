@@ -1,30 +1,30 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import {Link, Redirect} from 'react-router-dom';
-import ProductService from "../services/product.service";
+import DeliveryService from "../services/delivery.service";
 import axios from "axios"
 
 
 import TextField from '@material-ui/core/TextField';
 import { Input } from '@material-ui/core';
 
-class Products extends Component {
+class Deliveries extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            products: []
+            deliveries: []
         };
     }
 
-    handleProductDelete = id => {
+    handleDeliveryDelete = id => {
         console.log(id);
-      const url = `http://localhost:8080/products/${id}`;
+      const url = `http://localhost:8080/deliveries/${id}`;
       axios.delete(url)
       .then(response => {
         this.setState(previousState => {
               return {
-                  products: previousState.products.filter(p => p.id !== id)
+                  deliveries: previousState.deliveries.filter(d => d.id !== id)
               };
           });
     })
@@ -34,10 +34,10 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        ProductService.getProducts().then(
+        DeliveryService.getDeliveries().then(
             response => {
                 this.setState({
-                    products: response.data
+                    deliveries: response.data
                 });
             },
             /* error => {
@@ -54,7 +54,7 @@ class Products extends Component {
     }
 
     render() {
-        const { user: currentUser,  products } = this.props;
+        const { user: currentUser,  deliveries } = this.props;
 
         if (!currentUser) {
             return <Redirect to="/login" />;
@@ -63,17 +63,17 @@ class Products extends Component {
         return (
             <div className="container">
                 <header style={{ paddingTop: "50px"}}>
-                    <h2 style={{ fontFamily: "Corbel Light", color: 'rgb(207,16,26)'}}>
-                        PRODUCTS
+                    <h2 style={{ fontFamily: "Corbel Light, Courier New, sans-serif", color: 'rgb(207,16,26)'}}>
+                        DELIVERIES
                     </h2>
                 </header>
                 <Link
                     to={{
-                        pathname: `/add-product`,
+                        pathname: `/add-delivery`,
                         //state: {  products:  product }
                     }}
                 >
-                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Add product</button>
+                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Add delivery</button>
                 </Link>
 
                 <img src="/img/search.png"></img>
@@ -82,28 +82,28 @@ class Products extends Component {
                 <table className="table">
                     <tbody>
                     <tr>
-                        <td>Name:</td>
-                        <td>Price:</td>
+                        <td>Name of supplier:</td>
+                        <td>Destination:</td>
                         <td>Details:</td>
                         <td>Delete:</td>
                     </tr>
 
-                    {this.state. products &&
-                    this.state. products.map(( product, index) =>
+                    {this.state. deliveries &&
+                    this.state. deliveries.map(( delivery, index) =>
                             <tr>
-                                <td>{ product.name}</td>
-                                <td>{ product.price}</td>
+                                <td>{ /*delivery.supplier*/ "supplier"}</td>
+                                <td>{ delivery.destination}</td>
                                 <td>
                                 <Link
                                     to={{
-                                        pathname: `/products/${product.id}`,
-                                        state: {  products:  product }
+                                        pathname: `/deliveries/${delivery.id}`,
+                                        state: {  deliveries:  delivery }
                                     }}
                                 >
                                 <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button>
                                 </Link>
                                 </td>
-                                <td><button className="btn btn-outline-danger ml-4" value={product.id} onClick={() => this.handleProductDelete(product.id)}>Delete</button></td>
+                                <td><button className="btn btn-outline-danger ml-4" value={delivery.id} onClick={() => this.handleDeliveryDelete(delivery.id)}>Delete</button></td>
 
                             </tr>
                     )}
@@ -128,17 +128,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps)(Products);
-
-
-/*
-{this.state.products.map((product, index) => {
-  return(
-    <tr>
-      <td>{product.name}</td>
-      <td>{product.size}</td>
-
-    </tr>
-  );
-})}
-*/
+export default connect(mapStateToProps)(Deliveries);
