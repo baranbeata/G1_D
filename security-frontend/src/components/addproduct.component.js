@@ -35,9 +35,9 @@ class AddProduct extends Component {
     this.state = {
       name: "",
       price: "",
-      size: [""],
-      category: [""],
-      type: [""],
+      size: [],
+      category: [],
+      type: [],
       //successful: false,
       //currentUser: undefined,
       loading: false,
@@ -142,18 +142,18 @@ class AddProduct extends Component {
                 .then(response => {
                     this.setState({
                         successful: true,
-                        //responseMessage: response.data.message,
+                        message: response.data.message,
                         name: "",
                         price: "",
-                        size: [""],
-                        category: [""],
-                        type: [""],
+                        size: [],
+                        category: [],
+                        type: [],
                     });
                 })
                 .catch(response => {
                     this.setState({
                         successful: false,
-                        //message: response.data.message
+                        message: response.data.message
                     });
                 });
 
@@ -163,53 +163,11 @@ class AddProduct extends Component {
                 loading: false,
                 name: "",
                 price: "",
-                size: [""],
-                category: [""],
-                type: [""],
+                size: [],
+                category: [],
+                type: [],
             });
         }
-      /*const {name, price, size, category, type} = {
-        name: this.state.name,
-        price: this.state.price,
-        size: this.state.size,
-        category: this.state.category,
-        type: this.state.type};
-      try {
-        await axios.post('http://localhost:8080/add-product/', JSON.stringify(name, price, size, category, type) ,{headers: {
-          // Accept: 'application/json',
-           'Content-Type': 'application/json;charset=utf-8',
-        //   'Access-Control-Allow-Origin': '*'
-           }
-         })
-        .then(response => response.json())
-        .then(message => this.setState({message}));
-  
-      }
-      catch(err) {
-        if(err.response && err.response.data) {
-        console.log(err.response.data.message);
-        }
-      }
-      this.setState({
-        loading: false,
-        name: "",
-        price: "",
-        size: [""],
-        category: [""],
-        type: [""],
-      });
-           
-      } else {
-        this.setState({
-          loading: false,
-          name: "",
-          price: "",
-          size: [""],
-          category: [""],
-          type: [""],
-        });
-      }*/
-
   }
   
 
