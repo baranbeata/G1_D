@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
+import Form from "react-validation/build/form";
 
 
 class ProductDetails extends Component {
@@ -8,13 +9,16 @@ class ProductDetails extends Component {
     constructor(props) {
         super(props);
         this.updateInputValue= this.updateInputValue.bind(this);
-        this.updateInputValue2= this.updateInputValue2.bind(this);
+        this.updateInputValueName= this.updateInputValueName.bind(this);
+        this.updateInputValuePrice= this.updateInputValuePrice.bind(this);
 
         this.state = {
             description:'',
             is_des_clicked: false,
             name:'',
             is_name_clicked: false,
+            price:'',
+            is_price_clicked:false,
         };
 
 
@@ -25,24 +29,50 @@ class ProductDetails extends Component {
         this.setState({is_des_clicked:true})
     }
 
-    updateInputValue2(e) {
+    updateInputValueName(e) {
         this.setState({name: e.target.value,});
         this.setState({is_name_clicked:true})
     }
 
+    updateInputValuePrice(e) {
+        this.setState({price: e.target.value,});
+        this.setState({is_price_clicked:true})
+    }
+
 
     handleChangeValue = id => {
-        this.setState({ is_des_clicked: !this.state.is_des_clicked });
+        //this.setState({ is_des_clicked: !this.state.is_des_clicked });
         const url = `http://localhost:8080/products/${id}`;
+        let col='';
+        let val='';
+        //let button='';
+        if(this.state.is_des_clicked) {
+            this.setState({ is_des_clicked: !this.state.is_des_clicked });
+            col = 'description';
+            val=this.state.description;
+        }
+        else if(this.state.is_name_clicked)
+        {
+            this.setState({ is_name_clicked: !this.state.is_name_clicked });
+            col = 'name';
+            val=this.state.name;
+        }
+        else if(this.state.is_price_clicked)
+        {
+            this.setState({ is_price_clicked: !this.state.is_price_clicked });
+            col = 'price';
+            val=this.state.price;
+        }
+
         axios.post(url, null, { params: {
-                value:this.state.description,
-                column:'description'
+                value:val,
+                column:col
             }})
             .then(response => response.status)
             .catch(err => console.warn(err));
     }
 
-    handleChangeValue2 = id => {
+    handleChangeValueName = id => {
         this.setState({ is_name_clicked: !this.state.is_name_clicked });
         const url = `http://localhost:8080/products/${id}`;
         axios.post(url, null, { params: {
@@ -57,6 +87,7 @@ class ProductDetails extends Component {
         const {  location } = this.props;
         const { is_des_clicked } = this.state;
         const { is_name_clicked } = this.state;
+        const { is_price_clicked } = this.state;
 
         return (
 
@@ -78,35 +109,69 @@ class ProductDetails extends Component {
                             //  value={this.state.description}
                             name="productname"
                             placeholder="Click to add product name"
-                            onChange={this. updateInputValue2}
+                            onChange={this. updateInputValueName}
 
                         />
 
                         <div className="form-group">
                             { is_name_clicked
-                                ?   <button className="btn btn-outline-info ml-4" value={location.state.products.id} onClick={() => this.handleChangeValue2(location.state.products.id)}>Save</button>
+                                ?   <button className="btn btn-outline-info ml-4" value={location.state.products.id} onClick={() => this.handleChangeValue(location.state.products.id)}>Save</button>
                                 : null
                             }
                         </div>
                     </div>
-                    <p>
-                        <strong>Size:</strong>
+
+
+                    <div className="form-group">
+                        <label htmlFor={location.state.products.name}><strong>Size</strong></label>
                         <ul>
-                            {location.state.products.sizes &&
-                            location.state.products.sizes.map((size, index) => <li key={index}>{size}</li>)}
+                            {location.state.products.sizes.map(size => <div>{size.name}</div>)}
+                        </ul>
+                    </div>
+
+
+                    <div className="form-group">
+                        <label htmlFor={location.state.products.name}><strong>Category</strong></label>
+                        <ul>
+                            {location.state.products.categories.map(cat => <div>{cat.name}</div>)}
+
                         </ul>
 
-                    </p>
+                    </div>
 
-                    <p>
-                        <strong>Category:</strong> {location.state.products.categories.name}
-                    </p>
-                    <p>
-                        <strong>Type:</strong> {location.state.products.types.name}
-                    </p>
-                    <p>
-                        <strong>Price:</strong> {location.state.products.price}
-                    </p>
+
+
+                    <div className="form-group">
+                        <label htmlFor={location.state.products.name}><strong>Type</strong></label>
+                        <ul>
+                            {location.state.products.types.map(type => <div>{type.name}</div>)}
+                        </ul>
+                    </div>
+
+
+                    <div className="form-group">
+                        <label htmlFor={location.state.products.price}><strong>Price</strong></label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            defaultValue={location.state.products.price || ''}
+                            //  value={this.state.description}
+                            name="productprice"
+                            placeholder="Click to change product price"
+                            onChange={this. updateInputValuePrice}
+
+                        />
+                        <div className="form-group">
+                            { is_price_clicked
+                                ?   <button className="btn btn-outline-info ml-4" value={location.state.products.id} onClick={() => this.handleChangeValue(location.state.products.id)}>Save</button>
+                                : null
+                            }
+                        </div>
+
+
+                    </div>
+
+
                     <div className="form-group">
                         <label htmlFor={location.state.products.description}><strong>Product description</strong></label>
                         <input
@@ -136,14 +201,5 @@ class ProductDetails extends Component {
         );
     };
 }
-/*
-function mapStateToProps(state) {
-    const { description } = state.auth;
-    return {
-        description
-    };
-}
 
-export default connect(mapStateToProps)(ProductDetails );
-*/
 export default  ProductDetails ;

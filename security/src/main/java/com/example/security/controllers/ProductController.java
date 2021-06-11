@@ -61,10 +61,9 @@ public class ProductController {
     ResponseEntity<?> addProduct(@Valid @RequestBody AddProductRequest addProductRequest) {
         Product product = new Product(addProductRequest.getName(), addProductRequest.getPrice());
 
-        Set<String> strSizes = addProductRequest.getSize();
+      /*  Set<String> strSizes = addProductRequest.getSize();
         Set<Size> sizes = new HashSet<>();
 
-        System.out.println("Ania");
 
         if (strSizes == null) {
             Size overallSize = sizeRepository.findByName(ESize.ONE_SIZE)
@@ -74,9 +73,11 @@ public class ProductController {
             strSizes.forEach(size -> {
                 switch (size) {
                     case "xs":
+
                         Size xs = sizeRepository.findByName(ESize.SIZE_XS)
                                 .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
                         sizes.add(xs);
+
 
                         break;
                     case "s":
@@ -109,8 +110,7 @@ public class ProductController {
                 }
             });
         }
-
-
+*/
         Set<String> strCategories = addProductRequest.getCategory();
         Set<Category> categories = new HashSet<>();
 
@@ -206,7 +206,9 @@ public class ProductController {
                 }
             });
         }
-
+       // product.setSizes(sizes);
+        product.setTypes(types);
+        product.setCategories(categories);
         productRepository.save(product);
         return ResponseEntity.ok(new MessageResponse("Product added successfully!"));
     }
@@ -239,6 +241,15 @@ public class ProductController {
                 break;
             case "name":
                 currentproduct.setName(value);
+                break;
+            case "price":
+                try {
+                    Float val=Float.parseFloat(value);
+                    currentproduct.setPrice(val);
+                }catch(NumberFormatException | NullPointerException ex){
+                    System.out.println("An exception has occured.\n Plz enter a valid integer");
+                }
+
                 break;
 
         }
