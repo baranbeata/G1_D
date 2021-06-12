@@ -67,8 +67,7 @@ class AuthService {
 
   getInfo(username) {
     return axios.get(API_URL + 'user',
-    {
-      username
+    {params:{username:username}
     })
   }
 }

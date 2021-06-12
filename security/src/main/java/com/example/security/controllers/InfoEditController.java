@@ -35,8 +35,17 @@ public class InfoEditController {
     @GetMapping("/user")
     public @NotNull
     ResponseEntity<Optional<InfoEdit>> getInfo(@RequestParam String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        return new ResponseEntity<>(infoEditRepository.findById(user.get().getId()), HttpStatus.OK);
+       // Optional<User> user = userRepository.findByUsername(username);
+
+        User user= this.userRepository.findByUsername(username).
+                orElseThrow(() -> new RuntimeException("Error: User with given username not found."));
+        System.out.println(username+"USER");
+        InfoEdit info=user.getInfo();
+        Long id=info.getId();
+        System.out.println(info.getId()+"pesel");
+
+        return new ResponseEntity<>(infoEditRepository.findById(info.getId()), HttpStatus.OK);
+
     }
 
     @GetMapping("/manager")
@@ -71,10 +80,21 @@ public class InfoEditController {
                     .body(new MessageResponse("Error: User not found!"));
         }
 
-        Optional<User> currentUser= userRepository.findByUsername(infoEditRequest.getUsername());
-        InfoEdit infoEdit = new InfoEdit(infoEditRequest.getName(), infoEditRequest.getSurname(), infoEditRequest.getPesel(), infoEditRequest.getTel(), currentUser.get());
+    //    System.out.format("%s user",infoEditRequest.getUsername());
+      //  Optional<User> currentUser= userRepository.findByUsername(infoEditRequest.getUsername());
 
+        User currentUser= this.userRepository.findByUsername(infoEditRequest.getUsername()).
+                orElseThrow(() -> new RuntimeException("Error: User with given username not found."));
+
+        InfoEdit infoEdit = new InfoEdit(infoEditRequest.getName(), infoEditRequest.getSurname(), infoEditRequest.getPesel(), infoEditRequest.getTel(), currentUser);
+
+       currentUser.setInfo(infoEdit);
         infoEditRepository.save(infoEdit);
+        userRepository.save(currentUser);
+
+            InfoEdit info = currentUser.getInfo();
+            System.out.format("%s after name", info.getPesel());
+          //  System.out.format("%s after pesel", info.getPesel());
 
         return ResponseEntity.ok(new MessageResponse("Info edited successfully!"));
    }

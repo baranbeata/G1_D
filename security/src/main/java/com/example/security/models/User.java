@@ -11,9 +11,12 @@ import javax.persistence.*;
 @Table(	name = "users")
 
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+
 
     @NonNull
     private String username;
@@ -34,9 +37,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "user")
+ //   @OneToOne(mappedBy = "user")
+   // private InfoEdit infoEdit;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "InfoEdit_id", referencedColumnName = "id")
     private InfoEdit infoEdit;
-    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
@@ -101,4 +107,10 @@ public class User {
     }
 
     public void setShop(Shop shop) { this.shop = shop; }
+
+    public InfoEdit getInfo() {
+        return infoEdit;
+    }
+
+    public void setInfo(InfoEdit info) { this.infoEdit=info; }
 }

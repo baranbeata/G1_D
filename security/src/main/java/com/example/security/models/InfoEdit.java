@@ -15,9 +15,13 @@ import javax.persistence.*;
 @Table(	name = "info")
 
 public class InfoEdit {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+
 
     @NonNull
     private String name;
@@ -31,11 +35,9 @@ public class InfoEdit {
     @NonNull
     private String tel;
 
-    //@OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @OneToOne(mappedBy = "infoEdit")
     private User user;
+
 
     public InfoEdit() {
     }
