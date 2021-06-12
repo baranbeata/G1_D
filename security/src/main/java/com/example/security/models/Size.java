@@ -9,6 +9,7 @@ public class Size {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //@OneToOne(cascade = CascadeType.ALL)
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ESize name;

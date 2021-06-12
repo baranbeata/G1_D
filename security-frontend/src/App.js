@@ -9,7 +9,6 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardEmployee from "./components/board-employee.component";
 import BoardManager from "./components/board-manager.component";
 import BoardAdmin from "./components/board-admin.component";
 import BoardSupplier from "./components/board-supplier.component";
@@ -17,12 +16,13 @@ import Footer from './footer'
 import Change_password from "./components/change_password.component"
 import ConfirmReset from "./components/confirmreset.component"
 import Products from "./components/products.component"
-import AddProduct from "./components/addproduct.component"
 import ProductDetails from "./components/productdetails.component"
+import infoEdit_form from "./components/infoEdit_form.component";
+import AddProduct from "./components/addproduct.component"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
-
+import User from "./components/userInfo.component";
 import { history } from './helpers/history';
 import ForgotPass from "./components/forgotpass.component";
 import ResetPassword from "./components/resetpassword.component";
@@ -83,7 +83,7 @@ class App extends Component {
             </Link>
             </div>
             <div class="col-xl-6 col-lg-7">
-
+            
             <nav class="header__menu">
             <ul>
               <li className="nav-item">
@@ -126,7 +126,7 @@ class App extends Component {
 
               {showEmployeeBoard && (
                 <li className="nav-item">
-                  <Link to={"/employee"} className="nav-link">
+                  <Link to={"/user"} className="nav-link">
                     <a>Employee</a>
                   </Link>
                 </li>
@@ -142,9 +142,17 @@ class App extends Component {
               )}
 
               {currentUser && (
+                <li className="nav-item">
+                  <Link to={"/shops"} className="nav-link">
+                  <a>Shops</a>
+                  </Link>
+                </li>
+              )}
+
+              {currentUser && (
                   <li className="nav-item">
-                    <Link to={"/shops"} className="nav-link">
-                      <a>Shops</a>
+                    <Link to={"/user"} className="nav-link">
+                      <a>User profile</a>
                     </Link>
                   </li>
               )}
@@ -198,7 +206,6 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/profile" component={Profile} />
-              <Route path="/employee" component={BoardEmployee} />
               <Route path="/manager" component={BoardManager} />
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/supplier" component={BoardSupplier} />
@@ -207,10 +214,13 @@ class App extends Component {
               <Route exact path="/add-product" component={AddProduct} />
               <Route exact path="/products/:id" component={ProductDetails}/>
               <Route path="/confirm-reset" component={ConfirmReset}/>
+              <Route exact path="/user/infoEdit-form" component={infoEdit_form} />
+              <Route exact path="/user" component={User} />
               <Route exact path="/profile/change_password" component={Change_password} />
               <Route exact path="/shops" component={Shops} />
               <Route exact path="/shops/:id" component={ShopDetails}/>
               <Route exact path="/deliveries" component={Deliveries} />
+
             </Switch>
           </div>
         </div>
