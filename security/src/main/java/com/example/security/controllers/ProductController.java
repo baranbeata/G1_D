@@ -61,7 +61,7 @@ public class ProductController {
     ResponseEntity<?> addProduct(@Valid @RequestBody AddProductRequest addProductRequest) {
         Product product = new Product(addProductRequest.getName(), addProductRequest.getPrice());
 
-      /*  Set<String> strSizes = addProductRequest.getSize();
+        Set<String> strSizes = addProductRequest.getSize();
         Set<Size> sizes = new HashSet<>();
 
 
@@ -110,7 +110,7 @@ public class ProductController {
                 }
             });
         }
-*/
+
         Set<String> strCategories = addProductRequest.getCategory();
         Set<Category> categories = new HashSet<>();
 
@@ -206,7 +206,7 @@ public class ProductController {
                 }
             });
         }
-       // product.setSizes(sizes);
+        product.setSizes(sizes);
         product.setTypes(types);
         product.setCategories(categories);
         productRepository.save(product);
