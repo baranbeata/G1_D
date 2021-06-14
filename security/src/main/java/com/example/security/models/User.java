@@ -1,4 +1,5 @@
 package com.example.security.models;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -37,10 +38,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
- //   @OneToOne(mappedBy = "user")
-   // private InfoEdit infoEdit;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     @JoinColumn(name = "InfoEdit_id", referencedColumnName = "id")
     private InfoEdit infoEdit;
 

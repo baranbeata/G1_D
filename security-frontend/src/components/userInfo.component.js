@@ -13,8 +13,8 @@ class User extends Component {
     super(props);
 
     this.state = {
-      infos: [
-          {name:'Ania', surname:'Kowal', pesel:'123456789',tel:"111222333"},]
+      infos: [],
+         // {name:'Ania', surname:'Kowal', pesel:'123456789',tel:"111222333"},]
     };
   }
 
@@ -38,19 +38,6 @@ class User extends Component {
        }
 */
     );
-      const user = this.props.user;
-
-      if (user.infoEdit) {
-          alert(`after incrementing, counts value is ${user.username}.`);
-          this.setState({
-              infos: user.infoEdit,
-            /*  currentUser: user,
-              showManagerBoard: user.roles.includes("ROLE_MANAGER"),
-              showAdminBoard: user.roles.includes("ROLE_ADMIN"),
-              showEmployeeBoard: user.roles.includes("ROLE_EMPLOYEE"),
-              showSupplierBoard: user.roles.includes("ROLE_SUPPLIER"),*/
-          });
-      }
                 
   }
 
@@ -71,14 +58,24 @@ class User extends Component {
             </header>
 
 
-                {this.state.infos&&
+                {this.state.infos &&
+               (
                     <div>
                         <p>
-                            <strong>Email: {currentUser.email} </strong>
+                            <strong>Name: {this.state.infos.name} </strong>
+                        </p>
+                        <p>
+                            <strong>Surname: {this.state.infos.surname} </strong>
+                        </p>
+                        <p>
+                            <strong>Pesel: {this.state.infos.pesel} </strong>
+                        </p>
+                        <p>
+                            <strong>Telephone number: {this.state.infos.tel} </strong>
                         </p>
 
                     </div>
-
+                )
                 }
                  
                 <p>
@@ -102,23 +99,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(User);
-/*
-   {this.state.infos &&
-                        this.state.infos.map( info =>
-                        <div>
-            <p>
-              <strong>Name: {info.name} </strong>
-            </p>
-            <p>
-            <strong>Surname: {info.surname}</strong>
-                </p>
-                <p>
-                <strong>PESEL: {info.pesel}</strong>
-               </p>
-                <p>
-                <strong>Telephone: {info.tel} </strong>
-                </p>
-                 </div>
-                 )
-                 }
- */

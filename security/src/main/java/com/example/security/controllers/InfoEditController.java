@@ -35,16 +35,21 @@ public class InfoEditController {
     @GetMapping("/user")
     public @NotNull
     ResponseEntity<Optional<InfoEdit>> getInfo(@RequestParam String username) {
-       // Optional<User> user = userRepository.findByUsername(username);
 
         User user= this.userRepository.findByUsername(username).
                 orElseThrow(() -> new RuntimeException("Error: User with given username not found."));
-        System.out.println(username+"USER");
-        InfoEdit info=user.getInfo();
-        Long id=info.getId();
-        System.out.println(info.getId()+"pesel");
 
-        return new ResponseEntity<>(infoEditRepository.findById(info.getId()), HttpStatus.OK);
+        InfoEdit info=user.getInfo();
+        if(info!=null) {
+            Long id = info.getId();
+            return new ResponseEntity<>(infoEditRepository.findById(id), HttpStatus.OK);
+        }
+        else{
+            InfoEdit infoedit=new InfoEdit();
+            user.setInfo(infoedit);
+            Long id2=infoedit.getId();
+            return new ResponseEntity<>(infoEditRepository.findById(id2), HttpStatus.OK);
+        }
 
     }
 
@@ -74,14 +79,11 @@ public class InfoEditController {
     @PostMapping("/user/infoEdit-form")
     public ResponseEntity<?> infoedit(@Valid @RequestBody InfoEditRequest infoEditRequest){
         if (!userRepository.existsByUsername(infoEditRequest.getUsername())) {
-            System.out.format("user %s ", userRepository.existsByUsername(infoEditRequest.getUsername()));
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: User not found!"));
         }
 
-    //    System.out.format("%s user",infoEditRequest.getUsername());
-      //  Optional<User> currentUser= userRepository.findByUsername(infoEditRequest.getUsername());
 
         User currentUser= this.userRepository.findByUsername(infoEditRequest.getUsername()).
                 orElseThrow(() -> new RuntimeException("Error: User with given username not found."));
@@ -93,8 +95,6 @@ public class InfoEditController {
         userRepository.save(currentUser);
 
             InfoEdit info = currentUser.getInfo();
-            System.out.format("%s after name", info.getPesel());
-          //  System.out.format("%s after pesel", info.getPesel());
 
         return ResponseEntity.ok(new MessageResponse("Info edited successfully!"));
    }

@@ -1,5 +1,6 @@
 package com.example.security.models;
 import com.example.security.repository.UserRepository;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -36,6 +37,7 @@ public class InfoEdit {
     private String tel;
 
     @OneToOne(mappedBy = "infoEdit")
+    @JsonBackReference
     private User user;
 
 
@@ -77,7 +79,7 @@ public class InfoEdit {
 
     public void setPesel(String pesel) {this.pesel = pesel;}
 
-    public String getTel() {return pesel;}
+    public String getTel() {return tel;}
 
     public void setTel(String tel) {this.tel = tel;}
 
