@@ -123,7 +123,7 @@ class ProductDetails extends Component {
 
 
                     <div className="form-group">
-                        <label htmlFor={location.state.products.name}><strong>Size</strong></label>
+                        <label htmlFor={location.state.products.sizes}><strong>Size</strong></label>
                         <ul>
                             {location.state.products.sizes.map(size => <div>{size.name}</div>)}
                         </ul>
@@ -131,7 +131,7 @@ class ProductDetails extends Component {
 
 
                     <div className="form-group">
-                        <label htmlFor={location.state.products.name}><strong>Category</strong></label>
+                        <label htmlFor={location.state.products.categories}><strong>Category</strong></label>
                         <ul>
                             {location.state.products.categories.map(cat => <div>{cat.name}</div>)}
 
@@ -142,7 +142,7 @@ class ProductDetails extends Component {
 
 
                     <div className="form-group">
-                        <label htmlFor={location.state.products.name}><strong>Type</strong></label>
+                        <label htmlFor={location.state.products.types}><strong>Type</strong></label>
                         <ul>
                             {location.state.products.types.map(type => <div>{type.name}</div>)}
                         </ul>
