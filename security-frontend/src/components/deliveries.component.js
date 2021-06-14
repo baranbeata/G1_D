@@ -100,10 +100,10 @@ class Deliveries extends Component {
                                         state: {  deliveries:  delivery }
                                     }}
                                 >
-                                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button>
+                                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Show</button>
                                 </Link>
                                 </td>
-                                <td><button className="btn btn-outline-danger ml-4" value={delivery.id} onClick={() => this.handleDeliveryDelete(delivery.id)}>Delete</button></td>
+                                <td><button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}} value={delivery.id} onClick={() => this.handleDeliveryDelete(delivery.id)}>Delete</button></td>
 
                             </tr>
                     )}

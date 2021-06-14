@@ -195,9 +195,11 @@ class ProductDetails extends Component {
                 </div>
                 <div>
                     <img src={process.env.PUBLIC_URL + "/img/product/product-1.jpg"} alt="image"/>
-                </div>
 
+                </div>
+                
             </div>
+            
         );
     };
 }
