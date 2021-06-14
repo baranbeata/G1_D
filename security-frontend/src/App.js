@@ -126,7 +126,7 @@ class App extends Component {
 
               {showEmployeeBoard && (
                 <li className="nav-item">
-                  <Link to={"/employee"} className="nav-link">
+                  <Link to={"/user"} className="nav-link">
                     <a>Employee</a>
                   </Link>
                 </li>
@@ -147,6 +147,14 @@ class App extends Component {
                   <a>Shops</a>
                   </Link>
                 </li>
+              )}
+
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/user"} className="nav-link">
+                      <a>User profile</a>
+                    </Link>
+                  </li>
               )}
 
               {currentUser && (
@@ -207,6 +215,7 @@ class App extends Component {
               <Route exact path="/products/:id" component={ProductDetails}/>
               <Route path="/confirm-reset" component={ConfirmReset}/>
               <Route exact path="/user/infoEdit-form" component={infoEdit_form} />
+              <Route exact path="/user" component={User} />
               <Route exact path="/profile/change_password" component={Change_password} />
               <Route exact path="/shops" component={Shops} />
               <Route exact path="/shops/:id" component={ShopDetails}/>

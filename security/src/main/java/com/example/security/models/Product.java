@@ -110,4 +110,8 @@ public class Product {
     public void setSizes(Set<Size> sizes ) {
         this.sizes = sizes;
     }
+
+    public void addSize(Size size){
+        this.sizes.add(size);
+    }
 }

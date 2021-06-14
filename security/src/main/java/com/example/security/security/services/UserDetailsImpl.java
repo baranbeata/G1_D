@@ -1,4 +1,5 @@
 package com.example.security.security.services;
+import com.example.security.models.InfoEdit;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,14 +29,17 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    private InfoEdit infoEdit;
+
     public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
+                           Collection<? extends GrantedAuthority> authorities,InfoEdit info) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.newpassword="";
         this.authorities = authorities;
+        this.infoEdit=info;
     }
 
     public static UserDetailsImpl build(User user) {
@@ -48,7 +52,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities);
+                authorities,
+                user.getInfo());
     }
 
     @Override
@@ -76,6 +81,9 @@ public class UserDetailsImpl implements UserDetails {
 
    // @Override
     public String getNewpassword() {return newpassword;}
+
+   //  @Override
+    public InfoEdit getInfo() {return infoEdit;}
 
     @Override
     public boolean isAccountNonExpired() {

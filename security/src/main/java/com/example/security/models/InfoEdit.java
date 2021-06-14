@@ -1,5 +1,6 @@
 package com.example.security.models;
 import com.example.security.repository.UserRepository;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -15,9 +16,13 @@ import javax.persistence.*;
 @Table(	name = "info")
 
 public class InfoEdit {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+
 
     @NonNull
     private String name;
@@ -31,11 +36,10 @@ public class InfoEdit {
     @NonNull
     private String tel;
 
-    //@OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @OneToOne(mappedBy = "infoEdit")
+    @JsonBackReference
     private User user;
+
 
     public InfoEdit() {
     }
@@ -75,7 +79,7 @@ public class InfoEdit {
 
     public void setPesel(String pesel) {this.pesel = pesel;}
 
-    public String getTel() {return pesel;}
+    public String getTel() {return tel;}
 
     public void setTel(String tel) {this.tel = tel;}
 

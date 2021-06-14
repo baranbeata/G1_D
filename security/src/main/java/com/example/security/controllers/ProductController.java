@@ -1,15 +1,8 @@
 package com.example.security.controllers;
 
+import com.example.security.models.*;
 import com.example.security.models.Product;
 import com.example.security.payload.request.AddProductRequest;
-import com.example.security.payload.response.MessageResponse;
-import com.example.security.models.Category;
-import com.example.security.models.ECategory;
-import com.example.security.models.Type;
-import com.example.security.models.EType;
-import com.example.security.models.Size;
-import com.example.security.models.ESize;
-
 import com.example.security.payload.response.MessageResponse;
 import com.example.security.models.Shop;
 import com.example.security.repository.ProductRepository;
@@ -71,7 +64,6 @@ public class ProductController {
         Set<String> strSizes = addProductRequest.getSize();
         Set<Size> sizes = new HashSet<>();
 
-        System.out.println("Ania");
 
         if (strSizes == null) {
             Size overallSize = sizeRepository.findByName(ESize.ONE_SIZE)
@@ -81,9 +73,11 @@ public class ProductController {
             strSizes.forEach(size -> {
                 switch (size) {
                     case "xs":
+
                         Size xs = sizeRepository.findByName(ESize.SIZE_XS)
                                 .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
                         sizes.add(xs);
+
 
                         break;
                     case "s":
@@ -116,7 +110,6 @@ public class ProductController {
                 }
             });
         }
-
 
         Set<String> strCategories = addProductRequest.getCategory();
         Set<Category> categories = new HashSet<>();
@@ -213,7 +206,9 @@ public class ProductController {
                 }
             });
         }
-
+        product.setSizes(sizes);
+        product.setTypes(types);
+        product.setCategories(categories);
         productRepository.save(product);
         return ResponseEntity.ok(new MessageResponse("Product added successfully!"));
     }
@@ -239,7 +234,39 @@ public class ProductController {
         Product currentproduct = this.productRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Error: Product with given id not found."));
 
-        currentproduct.setDescription(value);
+       switch(column)
+        {
+            case "description":
+                currentproduct.setDescription(value);
+                break;
+            case "name":
+                currentproduct.setName(value);
+                break;
+            case "price":
+                try {
+                    Float val=Float.parseFloat(value);
+                    currentproduct.setPrice(val);
+                }catch(NumberFormatException | NullPointerException ex){
+                    System.out.println("An exception has occured.\n Plz enter a valid integer");
+                }
+
+                break;
+
+        }
+      /*  if(column.equals("description"))
+            currentproduct.setDescription(value);
+        else if(column.equals("name")) {
+           /* switch(value){
+                case "XS":
+                case "xs":
+                 //   Size size = sizeRepository.findByName(ESize.SIZE_XS)
+                           // .orElseThrow(() -> new RuntimeException("Error: Size is not found."));
+                    ESize esize=ESize.SIZE_XS;
+                    Size size= new Size(esize);
+                    sizeRepository.save(size);
+                    currentproduct.addSize(size);
+            }
+        }*/
         productRepository.save(currentproduct);
 
         return ResponseEntity.ok(new MessageResponse("Value was changed successfully!"));
