@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 import {Link, Redirect} from 'react-router-dom';
 import ShopService from "../services/shop.service";
-import axios from "axios";
 
 
 class Shops extends Component {
@@ -12,22 +11,6 @@ class Shops extends Component {
         this.state = {
             shops: []
         };
-    }
-
-    handleShopDelete = id => {
-       // console.log(id);
-        const url = `http://localhost:8080/shops/${id}`;
-        axios.delete(url)
-            .then(response => {
-                this.setState(previousState => {
-                    return {
-                        shops: previousState.shops.filter(p => p.id !== id)
-                    };
-                });
-            })
-            .catch(response => {
-                console.log(response);
-            });
     }
 
     componentDidMount() {
@@ -71,8 +54,7 @@ class Shops extends Component {
                         <td>Name:</td>
                         <td>Address:</td>
                         <td>City:</td>
-                        <td>Details:</td>
-                        <td>Delete:</td>
+
                     </tr>
 
                     {this.state.shops &&
@@ -82,18 +64,18 @@ class Shops extends Component {
                                     <td>{shop.name}</td>
                                     <td>{shop.address}</td>
                                     <td>{shop.city}</td>
-<td>
+
                                         <Link
                                             to={{
                                                 pathname: `/shops/${shop.id}`,
                                                 state: { shops: shop }
                                             }}
                                         >
-                                    <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button>
+                                    <td><button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button></td>
                                     </Link>
-</td>
-                                          <td><button className="btn btn-outline-danger ml-4" value={shop.id} onClick={() => this.handleShopDelete(shop.id)}>Delete</button></td>
+
                                 </tr>
+                            //</div>
                     )}
 
                     </tbody>
@@ -117,16 +99,3 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps)(Shops);
-
-
-/*
-{this.state.shops.map((shop, index) => {
-  return(
-    <tr>
-      <td>{shop.name}</td>
-      <td>{shop.address}</td>
-      <td>{shop.city}</td>
-    </tr>
-  );
-})}
-*/

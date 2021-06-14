@@ -1,5 +1,6 @@
 package com.example.security.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Shop {
     private String hours;
 
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private List<User> users=new ArrayList<User>();
 
     public Shop() {
