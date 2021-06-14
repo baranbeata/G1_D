@@ -39,7 +39,7 @@ class AddProduct extends Component {
             category: ["skirt"],
             type: ["men"],
             successful: false,
-            //currentUser: undefined,
+            currentUser: undefined,
             loading: false,
         };
     }
@@ -85,31 +85,7 @@ class AddProduct extends Component {
         });
     }
 
-    /*
-    handleAddProduct(e) {
-      e.preventDefault();
-      this.setState({
-        successful: false,
-      });
-      this.form.validateAll();
-      if (this.checkBtn.context._errors.length === 0) {
-        this.props
-          .dispatch(
-            add_product(this.state.name, this.state.price, this.state.size, this.state.category, this.state.type)
-          )
-          .then(() => {
-            this.setState({
-              successful: true,
-            });
-          })
-          .catch(() => {
-            this.setState({
-              successful: false,
-            });
-          });
-      }
-    }
-    */
+
     async handleAddProduct(e) {
         e.preventDefault();
 
@@ -138,7 +114,7 @@ class AddProduct extends Component {
                 .then(response => {
                     this.setState({
                         successful: true,
-                        //responseMessage: response.data.message,
+                        message: response.data.message,
                         name: "",
                         price: "",
                         size: [],
@@ -149,13 +125,14 @@ class AddProduct extends Component {
                 .catch(response => {
                     this.setState({
                         successful: false,
-                       // message: response.data.message
+                        message: response.data.message
                     });
                 });
 
         }
         else {
             this.setState({
+                successful: false,
                 loading: false,
                 name: "",
                 price: "",
@@ -164,24 +141,18 @@ class AddProduct extends Component {
                 type: [],
             });
         }
+        this.props.history.push('/products');
+        //<Redirect to="/products" />;
     }
 
 
     render() {
         const { message, user: currentUser } = this.props;
-
-        /*
-        let isAdmin = 0;
-        if(currentUser!=null)
-          currentUser.roles.forEach(role => {
-            if(role === "ROLE_ADMIN")
-              isAdmin = 1;
-          });
-
-        if (!isAdmin) {
+        
+        if(currentUser==null){
           return <Redirect to="/" />;
         }
-        */
+        
         return (
             <div className="col-md-12">
                 <div className="card card-container" style={{ backgroundColor: 'white'}}>
@@ -284,19 +255,12 @@ class AddProduct extends Component {
         );
     }
 }
-/*
+
 function mapStateToProps(state) {
-  const { message } = state.message;
-  return {
-    message,
-  };
-};
-*/
-function mapStateToProps(state) {
-    //const { user } = state.auth;
+    const { user } = state.auth;
     const { message } = state.message;
     return {
-        //user,
+        user,
         message
     };
 }
