@@ -139,9 +139,8 @@ class ResetPassword extends Component {
                         </div>
 
                         <div className="form-group">
-                            <button>
-                                Change
-                            </button>
+                                <button className="btn btn-primary btn-block" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Change</button>
+
                         </div>
 
                         {this.state.responseMessage && (
