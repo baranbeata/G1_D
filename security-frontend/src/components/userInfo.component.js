@@ -51,10 +51,10 @@ class User extends Component {
 
         return (
             <div className="container">
-            <header className="jumbotron">
-              <h3>
-               Information about: <strong>{localStorage.getItem("username")}</strong>
-              </h3>
+            <header style={{ paddingTop: "50px"}}>
+              <h2 style={{ fontFamily: "Corbel Light", color: 'rgb(207,16,26)'}}>
+               INFORMATION ABOUT:  <strong>{localStorage.getItem("username")}</strong>
+              </h2>
             </header>
 
 
@@ -62,16 +62,16 @@ class User extends Component {
                (
                     <div>
                         <p>
-                            <strong>Name: {this.state.infos.name} </strong>
+                            <strong>Name: </strong> {this.state.infos.name}
                         </p>
                         <p>
-                            <strong>Surname: {this.state.infos.surname} </strong>
+                            <strong>Surname: </strong> {this.state.infos.surname}
                         </p>
                         <p>
-                            <strong>Pesel: {this.state.infos.pesel} </strong>
+                            <strong>Pesel: </strong> {this.state.infos.pesel}
                         </p>
                         <p>
-                            <strong>Telephone number: {this.state.infos.tel} </strong>
+                            <strong>Telephone number: </strong> {this.state.infos.tel}
                         </p>
 
                     </div>
@@ -80,7 +80,7 @@ class User extends Component {
                  
                 <p>
                   <table>
-                   <td> <Link to="/user/infoEdit-form" className="btn btn-lg btn-outline-danger ml-4">Edit information</Link> </td>
+                   <td> <Link to="/user/infoEdit-form"><button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Edit information</button></Link> </td>
                     </table>
                 </p>
           </div>

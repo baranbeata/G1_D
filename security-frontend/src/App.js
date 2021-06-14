@@ -19,6 +19,7 @@ import Products from "./components/products.component"
 import ProductDetails from "./components/productdetails.component"
 import infoEdit_form from "./components/infoEdit_form.component";
 import AddProduct from "./components/addproduct.component"
+import DeliveryDetails from "./components/delivery-details.component";
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
@@ -92,6 +93,14 @@ class App extends Component {
                 </Link>
               </li>
 
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/user"} className="nav-link">
+                      <a>User profile</a>
+                    </Link>
+                  </li>
+              )}
+
               {showManagerBoard && (
                 <li className="nav-item">
                   <Link to={"/manager"} className="nav-link">
@@ -103,15 +112,7 @@ class App extends Component {
               {showSupplierBoard && (
                 <li className="nav-item">
                   <Link to={"/supplier"} className="nav-link">
-                    Supplier Board
-                  </Link>
-                </li>
-              )}
-
-              {showAdminBoard && (
-                <li className="nav-item">
-                  <Link to={"/admin"} className="nav-link">
-                    <a>Admin Board</a>
+                    <a>Supplier Board</a>
                   </Link>
                 </li>
               )}
@@ -147,14 +148,6 @@ class App extends Component {
                   <a>Shops</a>
                   </Link>
                 </li>
-              )}
-
-              {currentUser && (
-                  <li className="nav-item">
-                    <Link to={"/user"} className="nav-link">
-                      <a>User profile</a>
-                    </Link>
-                  </li>
               )}
 
               {currentUser && (
@@ -220,11 +213,17 @@ class App extends Component {
               <Route exact path="/shops" component={Shops} />
               <Route exact path="/shops/:id" component={ShopDetails}/>
               <Route exact path="/deliveries" component={Deliveries} />
+              <Route exact path="/deliveries/:id" component={DeliveryDetails}/>
+
 
             </Switch>
           </div>
         </div>
-
+        <div>
+          <br/>
+          <br/>
+          <br/>
+        </div>
         <Footer/>
       </Router>
     );

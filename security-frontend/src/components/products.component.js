@@ -100,10 +100,10 @@ class Products extends Component {
                                         state: {  products:  product }
                                     }}
                                 >
-                                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Details</button>
+                                <button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}}>Show</button>
                                 </Link>
                                 </td>
-                                <td><button className="btn btn-outline-danger ml-4" value={product.id} onClick={() => this.handleProductDelete(product.id)}>Delete</button></td>
+                                <td><button className="btn btn-info btn-sm" style={{ backgroundColor: 'rgb(207,16,26)', borderStyle: 'none'}} value={product.id} onClick={() => this.handleProductDelete(product.id)}>Delete</button></td>
 
                             </tr>
                     )}
